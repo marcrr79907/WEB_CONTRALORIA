@@ -1,6 +1,6 @@
 #---------------------------------------------------------------------------------
 titulo_pagina = "Iniciar sesión en el sistema"
-titulo_sistema = "Contraloria General de la Republica"
+titulo_sistema = "Contraloria General de la República"
 submensaje_entrada = "Por favor proporcione sus datos de entrada"
 error_entrada = "Usuario o contraseña incorrecta"
 #---------------------------------------------------------------------------------

@@ -1,1 +1,37 @@
-<h1>login panel</h1>
+{% extends "base_general_panel.html" %}
+{% load static %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block contenido %}
+	<div class="row">
+		<div class="col-12">
+			<div class="callout callout-info" style="text-align: justify; border-left-color: #6c757d;">
+				<h5><i class="fas fa-info"></i> {{ mensaje_bienvenida }} </h5>
+				{{ texto_informativo }}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">		
+		<div class="col-12">
+			<div class="card card-danger card-outline">
+				<div class="card-header">
+                    <h4 class="card-title">
+                        {{ titulo_estadisticas }}
+                    </h4>
+                </div>
+			</div>
+		</div>
+	</div>
+
+	
+{% endblock %}
+
+{% block scriptjs %}
+<script>
+	
+</script>
+{% endblock %}
