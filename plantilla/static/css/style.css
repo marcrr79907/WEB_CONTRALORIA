@@ -1,0 +1,31 @@
+
+ul.errorlist {
+  color: red;
+}
+
+.error_datos {
+  color: red;
+}
+
+td.center_data{
+  text-align: center
+}
+
+.helptext{
+  color: red;
+  font-weight: bold;
+}
+
+div.modal-body p.justify_data{
+  text-align: justify;
+}
+
+form p label{
+  font-weight: normal !important;
+}
+
+div.jconfirm-content div div.text_confirmacion{
+  text-align: justify !important;
+}
+
+/*----------------------------------------------------------*/

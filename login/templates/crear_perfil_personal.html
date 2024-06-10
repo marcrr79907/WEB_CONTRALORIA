@@ -1,0 +1,27 @@
+{% extends "base_general_panel.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><i class="fa fa-check"></i> {{ titulo }} </li>
+{% endblock %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block contenido %}
+    <span><p>* El asterisco indica que es obligatorio</p></span>
+    <form action="{% url 'perfil_personal' %}" method="POST" enctype="multipart/form-data">
+        {% if error %}
+			<div class="callout callout-danger">
+				<span class="error_datos"> <i class="fas fa-times-circle"></i> {{error}}</span> 
+			</div>
+		{% endif %}        
+        
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-primary">
+            <i class="fa fa-check"></i> Actualizar perfil
+        </button>
+    </form>
+{% endblock %}

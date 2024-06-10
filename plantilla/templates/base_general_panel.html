@@ -1,0 +1,23 @@
+{% extends "base_general.html" %}
+{% load static %}
+
+{% block contenido_del_panel %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-danger">
+                <div class="card-header">
+                    <h5 class="m-0">
+                        {% block titulo %}
+                    
+                        {% endblock %}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% block contenido %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

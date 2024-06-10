@@ -1,0 +1,8 @@
+{% if request.user.is_authenticated %}
+			<li class="nav-item">
+				<a href="{% url 'perfil_personal' %}" class="nav-link">
+					<i class="nav-icon far fa-user"></i>
+					<p> Perfil personal </p>
+				</a>
+			</li>
+{% endif %}

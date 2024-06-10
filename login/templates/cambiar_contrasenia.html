@@ -1,0 +1,62 @@
+{% extends "base_general_panel.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+		<i class="fa fa-check"></i> {{ titulo }}
+	</li>
+{% endblock %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block contenido %}
+    <form action="{% url 'cambiar_contrasenia' %}" method="POST">
+        {% csrf_token %}
+		<div class="form-group">
+			<label for="password">Contraseña actual</label>
+			<input type="password" class="form-control" id="actual" name="actual"  placeholder="Contraseña actual"  required="required" minlength="8" maxlength="20" />
+		</div>
+		
+		<div class="form-group">
+			<label for="password">Contraseña nueva</label>
+			<input type="password" class="form-control" id="password" name="password"  placeholder="Contraseña nueva"  required="required" minlength="8" maxlength="20" />
+		</div>
+		
+		<div class="form-group">
+			<label for="password_confirm">Confirmar contraseña nueva</label>
+			<input type="password" class="form-control" id="password_confirm" name="password_confirm"  placeholder="Confirmar contraseña nueva"  required="required" minlength="8" maxlength="20" />
+		</div>
+		
+        <button class="btn btn-primary">
+            <i class="fa fa-check"></i> Cambiar contraseña
+        </button>
+    </form>
+    </br>
+    {% if msg %}
+		<span class="error_datos">
+			<h4>{{ msg }}</h4>
+		</span>
+	{% endif %}
+	
+{% endblock %}
+
+{% block scriptjs %}
+<script>
+	$(function () {
+		var password;
+		var password2;
+		password = document.getElementById('password');
+		password2 = document.getElementById('password_confirm');
+		password.onchange = password2.onkeyup = passwordMatch;
+
+		function passwordMatch() {
+			if (password.value !== password2.value)
+				password2.setCustomValidity('Las contrase\xf1as nuevas no coinciden.');
+			else
+				password2.setCustomValidity('');
+		}
+	})
+</script>
+{% endblock %}

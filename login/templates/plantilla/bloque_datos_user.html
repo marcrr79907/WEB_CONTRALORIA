@@ -1,0 +1,72 @@
+{% load static %}
+	<li class="nav-item dropdown user-menu">
+    	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" title="Datos de usuario">
+        	{% if user.perfil_user.foto %}
+            	<img src="/media/{{ user.perfil_user.foto }}" class="user-image img-circle elevation-2" alt="Foto">            
+          	{% else %}
+            	<img src="{% static 'img/defecto.jpg' %}" class="user-image img-circle elevation-2" alt="Foto">
+          	{% endif %}
+			<span class="d-none d-md-inline">
+				{% if user.perfil_user.nombre_user %}
+					{{ user.perfil_user.nombre_user }}
+				{% elif user.first_name or user.last_name %}
+					{{ user.first_name }} {{ user.last_name }}
+				{% else %}
+					{{ user.username }}
+				{% endif %}
+			</span>
+        </a>
+        
+    	<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px; width: 300px;">
+        	<span class="dropdown-header bg-danger"><b>Datos de usuario</b></span>
+          
+          	<div class="dropdown-divider"></div>
+				<a class="dropdown-item text-center">
+			  	{% if user.perfil_user.foto %}
+					<img src="/media/{{ user.perfil_user.foto }}" class="profile-user-img img-fluid img-circle alt="Foto">            
+			  	{% else %}
+					<img src="{% static 'img/defecto.jpg' %}" class="profile-user-img img-fluid img-circle alt="Foto">
+		      	{% endif %}</br>
+
+				{% if user.perfil_user.nombre_user %}
+					{{ user.perfil_user.nombre_user }}
+				{% elif user.first_name or user.last_name %}
+					{{ user.first_name }} {{ user.last_name }}
+				{% else %}
+					{{ user.username }}
+				{% endif %}
+			</a>
+          
+        	<div class="dropdown-divider"></div>
+				<a class="dropdown-item">
+			  		<i class="far fa-user mr-2"></i> {{ user.username }}
+				</a>
+
+          	<div class="dropdown-divider"></div>
+			  	<a class="dropdown-item">
+					<i class="far fa-envelope mr-2"></i> {{ user.email }}
+			  	</a>
+
+          	<div class="dropdown-divider"></div>
+				<a href="{% url 'perfil_personal' %}" class="dropdown-item">
+					<i class="far fa-user mr-2"></i> Perfil personal
+				</a>
+
+			<div class="dropdown-divider"></div>
+				<a href="{% url 'cambiar_contrasenia' %}" class="dropdown-item">
+				  <i class="fa fa-key mr-2"></i> Cambiar contraseña
+			  	</a>
+		  
+		  	{% if request.user.is_superuser and request.user.is_staff %}
+		  		<div class="dropdown-divider"></div>
+			  		<a href="{{ BASE_DIR }}/admin/" class="dropdown-item">
+						<i class="far fa-folder mr-2"></i> Administración del sitio    
+			  		</a>
+		  	{% endif %}
+
+          	<div class="dropdown-divider"></div>
+            	<a href="{% url 'cerrar_session' %}" class="dropdown-item">
+              		<i class="fas fa-lock mr-2"></i> Cerrar sesión     
+            	</a>
+        </div> 
+    </li>

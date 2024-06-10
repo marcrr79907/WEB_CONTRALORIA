@@ -1,0 +1,72 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ titulo }}</title>
+  
+  <link rel="icon" href="{% static 'img/pc1.ico' %}">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static 'AdminLTE-3.2.0/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'AdminLTE-3.2.0/dist/css/adminlte.min.css' %}">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card card-outline card-danger">
+    <div class="card-header text-center">
+      img
+    </div>
+    <div class="card-body">
+	  <p class="login-box-msg">
+		  <span class="h4"><b>{{ titulo_sistema }}</b></span></br>
+		  {{ info_user }} </p>
+      
+      <span style="color:red;">{{error}}</span>
+      
+      <form action="{% url 'iniciar_session' %}" method="post">
+       {% csrf_token %}
+        <div class="input-group mb-3">
+          <input type="text" name="username" id="username"class="form-control" placeholder="Usuario" required="">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" name="password" id="password"class="form-control" placeholder="Contraseña" required="">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">  </div>
+          <!-- /.col -->
+          <div class="col-6">
+            <button class="btn btn-primary btn-block"> <i class="fas fa-check"></i> Iniciar sesión </button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+<!-- /.login-box -->
+<!-- jQuery -->
+<script src="{% static 'AdminLTE-3.2.0/plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'AdminLTE-3.2.0/dist/js/adminlte.min.js' %}"></script>
+</body>
+</html>

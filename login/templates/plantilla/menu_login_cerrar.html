@@ -1,0 +1,8 @@
+{% if request.user.is_authenticated %}
+			<li class="nav-item">
+				<a href="{% url 'cerrar_session' %}" class="nav-link">
+					<i class="nav-icon fas fa-lock"></i>
+					<p> Cerrar sesión </p>
+				</a>
+			</li>
+{% endif %}

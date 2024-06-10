@@ -1,0 +1,32 @@
+{% extends "base_general_panel.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{% url 'perfil_personal' %}"><i class="far fa-user"></i> Perfil personal</a>
+	</li>
+    <li class="breadcrumb-item">
+		<i class="far fa-edit"></i> {{ titulo }}
+	</li>
+{% endblock %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block contenido %}
+    {% if error %}
+		<div class="callout callout-danger">
+			<span class="error_datos"> <i class="fas fa-times-circle"></i> {{error}}</span> 
+		</div>
+	{% endif %} 
+    
+    <span><p>* El asterisco indica que es obligatorio</p></span>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-primary">
+            <i class="fa fa-edit"></i> Guardar cambios
+        </button>
+    </form>
+{% endblock %}
