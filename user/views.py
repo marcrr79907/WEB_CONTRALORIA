@@ -2,7 +2,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from user.models import User
-from .forms import CustomUserCreationForm, UserUpdateForm
+from .forms import UserUpdateForm
 from django.views.generic.edit import UpdateView, FormView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
@@ -28,8 +28,8 @@ class UsersLoginView(LoginView):
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
-    template_name = 'editp.html'
-    success_url = reverse_lazy('users:profile')
+    template_name = 'edit_profile.html'
+    success_url = reverse_lazy('user:profile')
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -43,10 +43,8 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
             action = request.POST['action']
             if action == 'edit':
                 form = self.get_form()
-                phone = Phone_DB.objects.get(number=request.POST['phone'])
                 if form.is_valid():
-                    if phone:
-                        form.save()
+                    form.save()
 
                 else:
                     data['error'] = form.errors
@@ -70,10 +68,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         user = self.request.user
-        data_user = Person_DB.objects.get(dni=user.ci)
         context = super().get_context_data(**kwargs)
 
-        context['data_user'] = data_user
         context['user'] = user
 
         return context   

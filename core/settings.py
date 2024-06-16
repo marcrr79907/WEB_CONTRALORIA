@@ -127,7 +127,7 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 
 # Redireccion al cerrar sesion
-LOGOUT_REDIRECT_URL = '/login/'
+LOGOUT_REDIRECT_URL = 'user:login'
 
 # Acceder al login
 LOGIN_URL = 'user:login'

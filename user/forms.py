@@ -6,14 +6,13 @@ class UserUpdateForm(forms.ModelForm):
     
     class Meta:
         model = User
-        fields = ('username','phone')
+        fields = ('__all__')
+
+        widgets = {
+            'photo': forms.FileInput(attrs={'class': 'form-control'})
+        }
         error_messages = {
-            'username': {
-                'unique': 'Ya existe un usuario con ese nombre de usuario.'
-            },
-            'phone': {
-                'unique': 'Ya existe un usuario con ese telefono.'
-            }
+            
         }
          
     # Manejo de usuario y modificacion de password
@@ -30,12 +29,3 @@ class UserUpdateForm(forms.ModelForm):
             data['error'] = str(e)
 
         return data
-
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['nombre_user', 'foto']
-        widgets = {
-            'nombre_user': forms.TextInput(attrs={'class': 'form-control'}),
-            'foto': forms.FileInput(attrs={'class': 'form-control'})
-        }
