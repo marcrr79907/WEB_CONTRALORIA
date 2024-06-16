@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-app_name = 'gestion_contraloria'
+app_name = 'user'
 urlpatterns = [
     
 ]

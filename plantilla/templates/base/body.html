@@ -1,0 +1,23 @@
+{% load static %}
+{% include 'base/head.html' %}
+<body>
+
+    {% block header %}
+        {% include 'base/header.html' %}
+    {% endblock  %}
+    
+ 
+  
+    {% block content %}
+    {% endblock content %}
+   
+   
+    {% block footer %}
+        {% include 'base/footer.html' %}
+    {% endblock  %}
+
+    {% block scripts %}
+        {% include 'base/scripts_alert.html' %}
+    {% endblock  %}
+
+</body>

@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from django.contrib.auth.models import User
+from user.models import User
 
 class Organizacion(models.Model):
     
@@ -12,11 +12,12 @@ class Organizacion(models.Model):
 
 class Presupuesto(models.Model):
     
-    año = models.IntegerField(null=False)
+    fecha = models.DateField(default=datetime.now())
     monto_total = models.DecimalField(max_digits=15, decimal_places=2)
     estado = models.CharField(max_length=20)
 
     organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
 
 class Transaccion(models.Model):
     
@@ -25,7 +26,7 @@ class Transaccion(models.Model):
     descripcion = models.CharField(max_length=250,)
 
     id_presupuesto = models.ForeignKey(Presupuesto, on_delete=models.PROTECT)
-
+##################################################################################
 class Auditoria(models.Model):
     
     fecha_inicio = models.DateTimeField(auto_now_add=True)
@@ -35,6 +36,7 @@ class Auditoria(models.Model):
     organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
     id_auditor = models.ForeignKey(User, on_delete=models.PROTECT)
 
+
 class Hallazgo (models.Model):
     
     descripcion = models.CharField(max_length=250,)
@@ -42,6 +44,7 @@ class Hallazgo (models.Model):
     estado = models.CharField(max_length=20)
 
     id_auditoria = models.ForeignKey(Auditoria, on_delete=models.PROTECT)
+#########################################################################
 
 class InformesFinancieros(models.Model):
     pass

@@ -30,7 +30,7 @@ DEFAULT_APPS = [
 
 LOCAL_APPS = [
     'gestion_contraloria',
-    'login',
+    'user',
     'plantilla'
 ]
 
@@ -79,15 +79,6 @@ DATABASES = {
     }
 }
 
-
-LOGIN_URL = '/iniciar_session'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
-MEDIA_URL = '/media/'
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -123,6 +114,27 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+MEDIA_URL = '/media/'
+
+# URLS
+
+# Redireccion al hacer login
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+# Redireccion al cerrar sesion
+LOGOUT_REDIRECT_URL = '/login/'
+
+# Acceder al login
+LOGIN_URL = 'user:login'
+
+# Creacion de User personalizado
+AUTH_USER_MODEL = 'user.User'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
