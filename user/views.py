@@ -3,6 +3,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from user.models import User
 from .forms import UserUpdateForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic.edit import UpdateView, FormView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy

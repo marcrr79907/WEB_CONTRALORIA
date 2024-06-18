@@ -11,21 +11,31 @@ def user_directory_path(instance, filename):
 class User(AbstractUser):
 
     user_rol = models.CharField(max_length=20)
-    photo = models.ImageField(upload_to=user_directory_path, help_text="Archivos permitidos: Solamente imágenes", validators=[valid_foto], default="")
-
+    
     def __str__(self):
         return "(" + self.username + ") " + self.first_name + " " + self.last_name
 
+class Perfil(models.Model):
+    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil_user", verbose_name="Usuario")
+    nombre_user = models.CharField("Nombre completo*", max_length=100, default="")
+    foto = models.ImageField(upload_to=user_directory_path, help_text="Archivos permitidos: Solamente imágenes", validators=[valid_foto], default="")
+
+    def __str__(self):
+        return self.usuario.username
+    
+    class Meta:
+        verbose_name = "Perfil"
+        verbose_name_plural = "Perfiles"
+
     def delete(self, using=None, keep_parents=False):
-        if self.photo.name != "img/defecto.jpg":
-            self.photo.storage.delete(self.photo.name)
+        if self.foto.name != "img/defecto.jpg":
+            self.foto.storage.delete(self.foto.name)
             super().delete()
 
     def save(self, *args, **kwargs):
         if self.pk:
-            old_file = User.objects.get(pk=self.pk)
-            if old_file.photo.path != self.photo.path:
-                if old_file.photo.name != "img/defecto.jpg":
-                    default_storage.delete(old_file.photo.path)
-        super(User, self).save(*args, **kwargs)
-
+            old_file = Perfil.objects.get(pk=self.pk)
+            if old_file.foto.path != self.foto.path:
+                if old_file.foto.name != "img/defecto.jpg":
+                    default_storage.delete(old_file.foto.path)
+        super(Perfil, self).save(*args, **kwargs)

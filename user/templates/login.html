@@ -9,21 +9,21 @@
     <!-- /.login-logo -->
     <div class="card">
       <div class="card-body login-card-body">
-        <p class="login-box-msg">Inicie sesión en el sitio.</p>
+        <p class="login-box-msg">{{ title }}.</p>
   
-        <form action="." method="post">
+        <form class="text-center" action="." method="post">
           {% csrf_token %}
           <input type="hidden" name="next" value="{{next}}">
           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Usuario">
+            <input name="username" type="text" class="form-control" placeholder="Usuario">
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+                <span class="fas fa-user"></span>
               </div>
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Contraseña">
+            <input name="password" type="password" class="form-control" placeholder="Contraseña">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
