@@ -131,7 +131,7 @@ LOGOUT_REDIRECT_URL = 'user:login'
 LOGIN_URL = 'user:login'
 
 # Creacion de User personalizado
-AUTH_USER_MODEL = 'user.User'
+# AUTH_USER_MODEL = 'user.User'
 
 
 # Default primary key field type

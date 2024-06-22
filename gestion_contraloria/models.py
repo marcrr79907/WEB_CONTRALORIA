@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
-from user.models import User
+from user.models import Userperfil
 
 class Organizacion(models.Model):
     
@@ -23,7 +23,7 @@ class Presupuesto(models.Model):
     estado = models.CharField(max_length=20)
 
     organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    user_id = models.ForeignKey(Userperfil, on_delete=models.PROTECT)
     reporte_id = models.ForeignKey(Reporte, on_delete=models.PROTECT)
 
 # class Transaccion(models.Model):

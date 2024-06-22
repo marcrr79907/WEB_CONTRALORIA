@@ -1,22 +1,24 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
-from .validators import valid_foto
+from django.db.models.signals import post_save
+from .validators import *
 
-
+# Create your models here.
 def user_directory_path(instance, filename):
     return 'usuarios/{0}/{1}'.format(instance.usuario.username, filename)
 
+class Userperfil(User):
+    class Meta:
+        proxy = True
 
-class User(AbstractUser):
+    user_rol = models.TextChoices()
 
-    user_rol = models.CharField(max_length=20)
-    
     def __str__(self):
         return "(" + self.username + ") " + self.first_name + " " + self.last_name
 
 class Perfil(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name="perfil_user", verbose_name="Usuario")
+    usuario = models.OneToOneField(Userperfil, on_delete=models.CASCADE, related_name="perfil_user", verbose_name="Usuario")
     nombre_user = models.CharField("Nombre completo*", max_length=100, default="")
     foto = models.ImageField(upload_to=user_directory_path, help_text="Archivos permitidos: Solamente imágenes", validators=[valid_foto], default="")
 
