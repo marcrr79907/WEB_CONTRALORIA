@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(Userperfil)
 admin.site.register(Perfil)
+admin.site.register(Rol)
