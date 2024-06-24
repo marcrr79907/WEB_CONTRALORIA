@@ -4,15 +4,12 @@ from django.core.files.storage import default_storage
 from django.db.models.signals import post_save
 from .validators import *
 
-# Create your models here.
 def user_directory_path(instance, filename):
     return 'usuarios/{0}/{1}'.format(instance.usuario.username, filename)
 
 class Userperfil(User):
     class Meta:
         proxy = True
-
-    user_rol = models.TextChoices()
 
     def __str__(self):
         return "(" + self.username + ") " + self.first_name + " " + self.last_name
