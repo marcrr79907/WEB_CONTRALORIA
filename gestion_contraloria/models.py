@@ -9,31 +9,30 @@ class Organizacion(models.Model):
     direccion = models.CharField(max_length=250,)
     telefono = models.CharField(max_length=20,)
     
+    def __str__(self):
+        return self.nombre
+
+    class Meta:
+        verbose_name = "Organizacion"
+        verbose_name_plural = "Organizaciones"
 
 class Reporte(models.Model):
 
-    
+    ingresos_anuales = models.IntegerField()
+    costos_fijos = models.IntegerField()
+    costos_variables = models.IntegerField()
+    gastos_de_capital = models.IntegerField()
+    metas_corto_largo_plazo = models.CharField(max_length=50)
+    proyectos = models.IntegerField()
+    condiciones_económicas = models.CharField(max_length=50)
+    deudas_actuales = models.IntegerField()
+    personal = models.IntegerField()
+    costos_de_ersonal = models.IntegerField()
+    necesidades_tecnológicas = models.CharField(max_length=50)
+    reservas_de_contingencia = models.IntegerField()
 
     organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
 
-class Presupuesto(models.Model):
-    
-    fecha = models.DateField(auto_now=True)
-    monto_total = models.DecimalField(max_digits=15, decimal_places=2)
-    estado = models.CharField(max_length=20)
-
-    organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
-    user_id = models.ForeignKey(Userperfil, on_delete=models.PROTECT)
-    reporte_id = models.ForeignKey(Reporte, on_delete=models.PROTECT)
-
-# class Transaccion(models.Model):
-    
-#     fecha_transaccion = models.DateTimeField(auto_now_add=True)
-#     monto = models.DecimalField(max_digits=15, decimal_places=2)
-#     descripcion = models.CharField(max_length=250,)
-
-#     id_presupuesto = models.ForeignKey(Presupuesto, on_delete=models.PROTECT)
-
-##################################################################################
-
-    
+    class Meta:
+        verbose_name = "Reporte"
+        verbose_name_plural = "Reportes"
