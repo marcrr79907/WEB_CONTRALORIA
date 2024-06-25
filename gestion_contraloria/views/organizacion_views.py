@@ -20,6 +20,11 @@ class OrganizacionListView(LoginRequiredMixin, ListView):
         user_organizacion_list = Organizacion.objects.filter(
             en_supervision=self.request.user
         )
+        organizacion_reportes_list = [
+            [organizacion, Reporte.objects.filter(organizacion_id=organizacion.pk).count()]
+            for organizacion in user_organizacion_list
+        ]
+        is_empty = True if user_organizacion_list.count() == 0 else False
         title = 'Organizaciones' if len(organizacion_list) > 1 else 'Organización'
 
         context = super().get_context_data(**kwargs)
@@ -27,9 +32,11 @@ class OrganizacionListView(LoginRequiredMixin, ListView):
         context['title'] = 'Agregar Organización'
         context['entity'] = Organizacion
         context['object_list'] = organizacion_list
-        context['user_object_list'] = user_organizacion_list
+        context['user_object_list'] = organizacion_reportes_list
         context['action'] = 'add'
         context['action_update'] = 'update'
+        context['message'] = 'Sin organizaciones para auditar'
+        context['is_empty'] = is_empty
         context['data'] = self.request.session.pop('data', None)
 
         return context

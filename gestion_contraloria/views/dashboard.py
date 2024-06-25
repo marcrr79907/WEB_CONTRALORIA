@@ -5,4 +5,4 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 class DashboardView(LoginRequiredMixin, IsSuperuserMixin, TemplateView):
 
-    template_name = 'dashboard.html'
+    template_name = 'dashboard/dashboard.html'
