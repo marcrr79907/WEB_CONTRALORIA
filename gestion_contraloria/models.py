@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
-from user.models import Userperfil
+from django.contrib.auth.models import User
 
 class Organizacion(models.Model):
     
@@ -8,12 +8,14 @@ class Organizacion(models.Model):
     descripcion = models.CharField(max_length=250,)
     direccion = models.CharField(max_length=250,)
     telefono = models.CharField(max_length=20,)
+
+    en_supervision = models.ForeignKey(User, on_delete=models.SET_NULL, default=None)
     
     def __str__(self):
         return self.nombre
 
     class Meta:
-        verbose_name = "Organizacion"
+        verbose_name = "Organización"
         verbose_name_plural = "Organizaciones"
 
 class Reporte(models.Model):
@@ -30,8 +32,10 @@ class Reporte(models.Model):
     costos_de_ersonal = models.IntegerField()
     necesidades_tecnológicas = models.CharField(max_length=50)
     reservas_de_contingencia = models.IntegerField()
+    fecha = models.DateField(default=now)
 
     organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Reporte"

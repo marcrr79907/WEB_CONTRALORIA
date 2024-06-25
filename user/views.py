@@ -1,7 +1,7 @@
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from user.models import Userperfil
+from django.contrib.auth.models import User
 from .forms import UserUpdateForm
 from django.views.generic.edit import UpdateView, FormView
 from django.views.generic import TemplateView
@@ -16,7 +16,7 @@ class UsersLoginView(LoginView):
 
   
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = Userperfil
+    model = User
     form_class = UserUpdateForm
     template_name = 'edit_profile.html'
     success_url = reverse_lazy('user:profile')
@@ -66,7 +66,7 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 class SegurityUserView(LoginRequiredMixin, FormView):
 
-    model = Userperfil
+    model = User
     form_class = PasswordChangeForm
     template_name = 'segurity.html'
     url_redirect = reverse_lazy('users:segurity')
