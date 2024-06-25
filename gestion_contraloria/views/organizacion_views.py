@@ -8,7 +8,7 @@ from ..forms import OrganizacionForm
 
 class OrganizacionListView(LoginRequiredMixin, ListView):
     model = Organizacion
-    template_name = 'organizacion.html'
+    template_name = 'dashboard/dashboard.html'
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -24,7 +24,7 @@ class OrganizacionListView(LoginRequiredMixin, ListView):
             [organizacion, Reporte.objects.filter(organizacion_id=organizacion.pk).count()]
             for organizacion in user_organizacion_list
         ]
-        is_empty = True if user_organizacion_list.count() == 0 else False
+        is_empty = True if user_organizacion_list else False
         title = 'Organizaciones' if len(organizacion_list) > 1 else 'Organización'
 
         context = super().get_context_data(**kwargs)

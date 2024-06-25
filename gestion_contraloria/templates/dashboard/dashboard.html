@@ -5,7 +5,7 @@
 <div class="wrapper">
   <!-- Main Sidebar Container -->
   {% include 'dashboard/sidebar.html' %}
-    
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -27,15 +27,36 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-      {% include 'organizacion.html' %}
+      {% if is_empty %}
+	{% for user_object in user_object_list %}
+        {% for object in user_object %}
+            <div class="card text-center col-3">
+              <div class="card-header">
+                  {{ object.nombre }}
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ object.descripcion }}</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ object.direccion }}</li>
+                    <li class="list-group-item">{{ object.telefono }}</li>
+                </ul>
+                <a href="{% url 'gestion_contraloria:organization_update' %}" class="btn btn-primary">Auditar</a>
+              </div>
+              <div class="card-footer text-muted">
+                {{ object }} Auditoria(s) realizada(s)
+              </div>
+            </div>
+        {% endfor %}
+
+    {% endfor %}
+{% else %}
+    <p>{{ message }}</p>
+{% endif %}
+      <a class="btn btn-primary" href="{% url 'gestion_contraloria:organization_update' %}" role="button">Link</a>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+  
 </div>
 {% endblock content %}
