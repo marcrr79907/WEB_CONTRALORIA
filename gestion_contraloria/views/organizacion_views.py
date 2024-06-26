@@ -31,8 +31,8 @@ class OrganizacionListView(LoginRequiredMixin, ListView):
         context['title_list'] = title
         context['title'] = 'Agregar Organización'
         context['entity'] = Organizacion
-        context['object_list'] = organizacion_list
-        context['user_object_list'] = organizacion_reportes_list
+        context['organizacion_list'] = organizacion_list
+        context['user_organizacion_list'] = organizacion_reportes_list
         context['action'] = 'add'
         context['action_update'] = 'update'
         context['message'] = 'Sin organizaciones para auditar'

@@ -27,33 +27,76 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-      {% if is_empty %}
-	{% for user_object in user_object_list %}
-        {% for object in user_object %}
-            <div class="card text-center col-3">
-              <div class="card-header">
-                  {{ object.nombre }}
+    <div class="container p-3">
+        {% if request.path == "/organization_list/" %}
+           {% if is_empty %}
+               {% for user_organizacion in user_organizacion_list %}
+                   {% for object in user_organizacion %}
+                       <div class="card text-center col-3">
+                          <div class="card-header">
+                              {{ object.nombre }}
+                          </div>
+                          <div class="card-body">
+                            <p class="card-text">{{ object.descripcion }}</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">{{ object.direccion }}</li>
+                                <li class="list-group-item">{{ object.telefono }}</li>
+                            </ul>
+                            <a href="{% url 'gestion_contraloria:organization_update' %}" class="btn btn-primary">Auditar</a>
+                          </div>
+                          <div class="card-footer text-muted">
+                            {{ object }} Auditoria(s) realizada(s)
+                          </div>
+                        </div>
+                    {% endfor %}
+            
+                {% endfor %}
+            {% else %}
+                <p>{{ message }}</p>
+            {% endif %}
+            <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#orgModal">Añadir Organización</a>
+            <!-- Modal Org -->
+            <div class="modal fade" id="orgModal" tabindex="-1" role="dialog" aria-labelledby="orgModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="orgModalLabel">Añadir Organización</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="orgFormulario" action="{% url 'gestion_contraloria:organization_list'  %}">
+                      {% csrf_token %}
+                      <input type="hidden" name="action_update" value="{{action}}">
+                      <input type="hidden" id="org_seleccion" name="org_id">  
+                      <div class="form-group">
+                        <label for="seleccion">Selecciona una opción:</label>
+                        <select class="form-control" id="org_seleccion">
+                            {% for object in organizacion_list %}
+                                <option value={{ object.id }}>{{ object.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="orgbtnAceptar">Aceptar</button>
+                  </div>
+                </div>
               </div>
-              <div class="card-body">
-                <p class="card-text">{{ object.descripcion }}</p>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">{{ object.direccion }}</li>
-                    <li class="list-group-item">{{ object.telefono }}</li>
-                </ul>
-                <a href="{% url 'gestion_contraloria:organization_update' %}" class="btn btn-primary">Auditar</a>
-              </div>
-              <div class="card-footer text-muted">
-                {{ object }} Auditoria(s) realizada(s)
-              </div>
-            </div>
-        {% endfor %}
-
-    {% endfor %}
-{% else %}
-    <p>{{ message }}</p>
-{% endif %}
-      <a class="btn btn-primary" href="{% url 'gestion_contraloria:organization_update' %}" role="button">Link</a>
-    <!-- /.content -->
+            </div>      
+        
+        {% elif request.path == "/pagina2/" %}
+          <h1>Estás en la página 2</h1>
+        {% else %}
+          <h1>Otra página</h1>
+        {% endif %}
+         
+    </div>
+    
+      <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 

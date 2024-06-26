@@ -9,7 +9,7 @@ class Organizacion(models.Model):
     direccion = models.CharField(max_length=250,)
     telefono = models.CharField(max_length=20,)
 
-    en_supervision = models.ForeignKey(User, on_delete=models.SET_NULL, default=None, null=True)
+    en_supervision = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     
     def __str__(self):
         return self.nombre
