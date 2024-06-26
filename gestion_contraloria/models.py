@@ -29,10 +29,10 @@ class Reporte(models.Model):
     condiciones_económicas = models.CharField(max_length=50)
     deudas_actuales = models.IntegerField()
     personal = models.IntegerField()
-    costos_de_ersonal = models.IntegerField()
+    costos_de_personal = models.IntegerField()
     necesidades_tecnológicas = models.CharField(max_length=50)
     reservas_de_contingencia = models.IntegerField()
-    fecha = models.DateField(default=now)
+    fecha = models.DateField(auto_now=True)
 
     organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)

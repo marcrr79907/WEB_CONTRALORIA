@@ -1,0 +1,16 @@
+<label class="text-danger">
+	Confirma que desea eliminar la prestación
+</label>
+
+<div class="text_confirmacion">
+	<p>
+		<b>Código:</b> {{ prestacion.codigo }}</br>
+		<b>Modalidad:</b> {{ prestacion.get_modalidad }}</br>
+		<b>Descripción:</b> {{ prestacion.descripcion }}</br>
+		<b>Línea tecnológica:</b> {{ prestacion.get_linea_tecnologica }}</br>
+		<b>Tiempo aproximado:</b> {{ prestacion.tiempo }}</br>
+		<b>Cantidad de técnicos:</b> {{ prestacion.cant_tecnicos }}</br>
+		<b>Precio:</b> {{ prestacion.get_precio }}</br>
+		<b>Tiempo Real:</b> {{ prestacion.get_tiempo_real }}
+	</p>
+<div>

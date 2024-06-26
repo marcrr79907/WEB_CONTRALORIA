@@ -2,10 +2,10 @@ from django.forms import ModelForm
 from .models import *
 
 
-class OrganizacionForm(ModelForm):
+class ReportForm(ModelForm):
     class Meta:
-        model = Organizacion
-        fields = ['id', ]
+        model = Reporte
+        exclude = ['user_id']
 
     def save(self, commit=True):
         data = {}

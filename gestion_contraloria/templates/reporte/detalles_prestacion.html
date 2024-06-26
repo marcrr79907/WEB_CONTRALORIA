@@ -1,0 +1,131 @@
+{% extends "base_general_panel.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+			<a href="{% url 'listar_prestaciones' %}">
+				<i class="fa fa-list"></i> Prestaciones
+			</a>
+		</li> 
+	
+    <li class="breadcrumb-item">
+		<i class="fa fa-file"></i> {{ titulo }}
+	</li>
+{% endblock %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block contenido %}
+	<div class="row">
+		<div class="col-md-6">
+			<p>
+				<b>Casa comercial:</b> {{ prestacion.get_casa_comercial }} </br>
+				<b>Línea tecnológica:</b> {{ prestacion.get_linea_tecnologica }} </br>
+				<b>Modalidad:</b> {{ prestacion.get_modalidad }} </br>
+				<b>Código:</b> {{ prestacion.get_codigo }} </br>
+				<b>Descripción:</b> {{ prestacion.descripcion }} </br>
+			</p>
+		</div>
+		
+		<div class="col-md-6">
+			<p>
+				<b>Tiempo aproximado:</b> {{ prestacion.tiempo }} </br>
+				<b>Cantidad de técnicos:</b> {{ prestacion.cant_tecnicos }} </br>
+				<b>Precio:</b> {{ prestacion.get_precio }} </br>
+				<b>Tiempo Real:</b> {{ prestacion.get_tiempo_real }}
+			</p>
+		</div>
+	</div>
+	
+	<h4>Actividades: ({{ cantidad }})</h4>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<a href="{% url 'crear_actividad1' prestacion.id  %}" title="Adicionar actividad">
+				<button type="button" class="btn btn-primary">
+					<i class="fa fa-plus"></i> Adicionar actividad
+				</button>
+			</a>
+			</br>
+			<p></p>
+		</div>
+	</div>
+	
+	<div style="display: none;" id="info_add">
+		<b>Detalles de la prestación:</b></br>
+		<b>Casa comercial:</b> {{ prestacion.get_casa_comercial }} </br>	
+		<b>Línea tecnológica:</b> {{ prestacion.get_linea_tecnologica }} </br>
+		<b>Modalidad:</b> {{ prestacion.get_modalidad }} </br>
+		<b>Código:</b> {{ prestacion.get_codigo }} </br>
+		<b>Descripción:</b> {{ prestacion.descripcion }} </br>
+		<b>Tiempo aproximado:</b> {{ prestacion.tiempo }} </br>
+		<b>Cantidad de técnicos:</b> {{ prestacion.cant_tecnicos }} </br>
+		<b>Precio:</b> {{ prestacion.get_precio }} </br>
+		<b>Tiempo Real:</b> {{ prestacion.get_tiempo_real }} </br>
+	</div>
+		
+	<table id="actividades_por_prestacion" class="table table-bordered table-striped">
+        <thead class="bg-secondary">
+            <tr>
+				<th>Orden</th>
+				<th>Actividad</th>
+				<th>Tiempo</th>
+				<th>Acciones</th>
+            </tr>
+        </thead>        
+        <tbody>
+            {% for actividad in actividades %}
+                <tr>
+					<td>{{ actividad.orden_actividad }}</td>
+					<td>{{ actividad.nombre_actividad }}</td>
+					<td>{{ actividad.tiempo_actividad }}</td>
+					<td class="center_data">
+						<div class="btn-group">
+							<a href="{% url 'editar_actividad1' actividad.id prestacion.id %}" title="Editar">
+								<button type="button" class="btn btn-info">
+									<i class="fas fa-edit"></i>
+								</button>
+							</a>
+											
+							<button type="button" class="btn btn-danger" onclick="eliminar_actividad1({{ actividad.id }}, {{ prestacion.id }});" title="Eliminar">
+								<i class="fas fa-trash"></i>
+							</button>							
+						</div>               
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block scriptjs %}
+<script>
+	$(function () {
+		//----------------------------------------------------------------------------------
+		var titulo = "Listado de actividades de la ficha técnica - Prestación: {{ prestacion.get_codigo }}";
+		$("#actividades_por_prestacion").DataTable({
+			"responsive": true,
+			"paging": false,
+			"lengthChange": false,
+			"searching": false,
+			"ordering": true,
+			"info": false,
+			"autoWidth": false,
+			"aoColumnDefs": [no_ordenar([3])],
+			"buttons": [
+			  btn_pdf(titulo, [0, 1, 2], "v", 1),
+			  btn_print(titulo, [0, 1, 2]),   
+			],
+			"language": datatable_espannol,
+		}).buttons().container().appendTo('#actividades_por_prestacion_wrapper .col-md-6:eq(0)');
+		//----------------------------------------------------------------------------------
+	})
+	//----------------------------------------------------------------------------------
+	function eliminar_actividad1(id, id_p){
+	  eliminar_generico("confirmar_eliminar_actividad", id, "eliminar_actividad_secret1", id_p)
+	}
+	//----------------------------------------------------------------------------------
+</script>
+{% endblock %}

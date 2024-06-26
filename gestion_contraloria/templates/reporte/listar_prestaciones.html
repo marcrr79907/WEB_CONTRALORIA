@@ -1,3 +1,4 @@
+{% extends "base_general_panel.html" %}
 {% load static %}
 
 {% block breadcrumb %}
@@ -11,60 +12,60 @@
 {% endblock %}
 
 {% block contenido %}
+	<div class="row">
+		<div class="col-md-12">
+			<a href="{% url 'crear_prestacion' %}" title="Adicionar">
+				<button type="button" class="btn btn-primary">
+					<i class="fa fa-plus"></i> Adicionar
+				</button>
+			</a>
+			</br>
+			<p></p>
+		</div>
+	</div>
 
-    <table id="listar_reportes" class="table table-bordered table-striped">
+    <table id="listar_prestaciones" class="table table-bordered table-striped">
         <thead class="bg-secondary">
             <tr>
-				<th>Organización</th>
-				<th>Ingresos Anuales</th>
-				<th>Costos Fijos</th>
-				<th>Costos Variables</th>
-				<th>Gastos Capital</th>
-				<th>Metas</th>
-				<th>Proyectos</th>
-				<th>Condiciones Económicas</th>
-				<th>Deudas Actuales</th>
-				<th>Personal</th>
-				<th>Costos Personal</th>
-				<th>Necesidades</th>
-				<th>Reservas</th>
-				<th>Fecha</th>
+				<th>Casa comercial</th>
+				<th>Línea tecnológica</th>
+				<th>Modalidad</th>
+				<th>Código</th>
+				<th>Descripción</th>				
+				<th>Tiempo aproximado</th>
+				<th>Cantidad de técnicos</th>
+				<th>Precio</th>
+                <th>Tiempo Real</th>
                 <th>Acciones</th>
             </tr>
         </thead>        
         <tbody>
-            {% for reporte in reporte_list %}
+            {% for prestacion in listado %}
                 <tr>
-					<td>{{ reporte.organizacion_id.nombre }}</td>
-					<td>{{ reporte.ingresos_anuales }}</td>
-					<td>{{ reporte.costos_fijos }}</td>
-					<td>{{ reporte.costos_variables }}</td>
-					<td>{{ reporte.gastos_de_capital }}</td>
-					<td>{{ reporte.metas_corto_largo_plazo }}</td>					
-					<td>{{ reporte.proyectos }}</td>
-					<td>{{ reporte.condiciones_económicas }}</td>
-					<td>{{ reporte.deudas_actuales }}</td>
-					<td>{{ reporte.personal }}</td>
-					<td>{{ reporte.costos_de_personal }}</td>
-					<td>{{ reporte.necesidades_tecnológicas }}</td>
-					<td>{{ reporte.reservas_de_contingencia }}</td>
-					<td>{{ reporte.fecha }}</td>
-                    
+					<td>{{ prestacion.get_casa_comercial }}</td>
+					<td>{{ prestacion.get_linea_tecnologica }}</td>
+					<td>{{ prestacion.get_modalidad }}</td>
+					<td>{{ prestacion.get_codigo }}</td>
+					<td>{{ prestacion.descripcion }}</td>					
+					<td>{{ prestacion.tiempo }}</td>
+					<td>{{ prestacion.cant_tecnicos }}</td>
+					<td>{{ prestacion.get_precio }}</td>
+					<td>{{ prestacion.get_tiempo_real }}</td>
                     <td class="center_data">
 						<div class="btn-group">
-							<a href="#" title="Ver Detalles">
+							<a href="{% url 'detalles_prestacion' prestacion.id %}" title="Ver Detalles">
 								<button type="button" class="btn btn-info">
 									<i class="fas fa-file-pdf"></i>
 								</button>
 							</a>
 							
-							<a href="#" title="Editar">
+							<a href="{% url 'editar_prestacion' prestacion.id %}" title="Editar">
 								<button type="button" class="btn btn-secondary">
 									<i class="fas fa-edit"></i>
 								</button>
 							</a>		
 									
-							<button type="button" class="btn btn-danger" onclick="eliminar_reporte({{ reporte.id }});" title="Eliminar">
+							<button type="button" class="btn btn-danger" onclick="eliminar_prestacion({{ prestacion.id }});" title="Eliminar">
 								<i class="fas fa-trash"></i>
 							</button>							
 						</div>               
@@ -79,8 +80,8 @@
 <script>
 	$(function () {
 		//----------------------------------------------------------------------------------
-		var titulo = "Listado de reportes";
-		$("#listar_reportes").DataTable({
+		var titulo = "Listado de prestaciones";
+		$("#listar_prestaciones").DataTable({
 			"responsive": true,
 			"paging": true,
 			"lengthChange": true,
@@ -95,12 +96,12 @@
 			  btn_colvis(),    
 			],
 			"language": datatable_espannol,
-		}).buttons().container().appendTo('#listar_reportes_wrapper .col-md-6:eq(0)');
+		}).buttons().container().appendTo('#listar_prestaciones_wrapper .col-md-6:eq(0)');
 		//----------------------------------------------------------------------------------
 	})
 	//----------------------------------------------------------------------------------
-	function eliminar_reporte(id){
-	  eliminar_generico("confirmar_eliminar_reporte", id, "eliminar_reporte_secret")
+	function eliminar_prestacion(id){
+	  eliminar_generico("confirmar_eliminar_prestacion", id, "eliminar_prestacion_secret")
 	}
 	//----------------------------------------------------------------------------------
 </script>

@@ -1,0 +1,72 @@
+{% extends "base_general_panel.html" %}
+{% load static %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+		<i class="fa fa-search"></i> {{ titulo }}
+	</li>
+{% endblock %}
+
+{% block titulo %}
+    {{ titulo }}
+{% endblock %}
+
+{% block contenido %}
+<div class="row">
+	<div class="col-md-12">
+		<p>Aquí podrá realizar la búsqueda de prestaciones. Con la introducción de valores en los campos indicados, saldrá como resultado las prestaciones que cumplan con todas las condiciones establecidas.</p>
+	</div>
+</div>
+
+<form action="{% url 'reporte_prestaciones' %}" method="POST">
+	{% csrf_token %}
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Casa comercial:</label>
+				<select class="form-control select2" style="width: 100%;" name="casa_comercial" id="id_casa_comercial">
+					<option value="">--Seleccione--</option>
+					{% for casa in listado_casas %}
+						<option value="{{ casa.id }}">{{ casa.nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<label>Línea tecnológica:</label>
+				<select class="form-control select2" style="width: 100%;" name="linea_tecnologica" id="id_linea_tecnologica">
+					<option value="">--Seleccione--</option>
+					{% for linea in listado_lineas %}
+						<option value="{{ linea.id }}">{{ linea.nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<label>Modalidad:</label>
+				<select class="form-control select2" style="width: 100%;" name="modalidad" id="id_modalidad">
+					<option value="">--Seleccione--</option>
+					{% for modalidad in listado_modalidades %}
+						<option value="{{ modalidad.id }}">{{ modalidad.nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		
+		<div class="col-md-6">
+			<div class="form-group">
+				<label>Código:</label>
+				<input type="text" name="codigo" class="form-control" minlength="2" pattern="[0-9]+" title="Solo números" maxlength="8" id="id_codigo">
+			</div>
+			
+			<div class="form-group">
+				<label>Descripción:</label>
+				<input type="text" name="descripcion" class="form-control" maxlength="300" id="id_descripcion">
+			</div>
+		</div>
+	</div>
+	<button class="btn btn-primary" id="enviar_datos" title="Guardar">
+		<i class="fa fa-search"></i> Buscar
+	</button>
+</form>
+{% endblock %}
