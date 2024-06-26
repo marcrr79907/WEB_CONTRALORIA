@@ -17,8 +17,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v3</li>
+              <li class="breadcrumb-item"><a href="{% url 'gestion_contraloria:dashboard' %}">Menú Principal</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -29,147 +28,11 @@
     <!-- Main content -->
     <div class="container p-3">
         {% if request.path == "/organization_list/" %}
-            {% if user_organizacion_list %}
-                {% for user_organizacion in user_organizacion_list %}
-                    {% if user_organizacion %}
-                        {% with org=user_organizacion.0 %}
-                            <div class="card text-center col-3">
-                                <div class="card-header">
-                                    {{ org.nombre }}
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">{{ org.descripcion }}</p>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">{{ org.direccion }}</li>
-                                        <li class="list-group-item">{{ org.telefono }}</li>
-                                    </ul>
-                                    
-                                    <!-- Modal Auditar -->
-                                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#crearReporteModal">Auditar</a>
-                                    
-                                    <div class="modal fade" id="crearReporteModal" tabindex="-1" role="dialog" aria-labelledby="crearReporteModalLabel" aria-hidden="true">
-                                      <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                          <div class="modal-header">
-                                            <h5 class="modal-title" id="crearReporteModalLabel">Crear Reporte</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">&times;</span>
-                                            </button>
-                                          </div>
-                                          <form action="{% url 'gestion_contraloria:report_create' %}" method="post">
-                                            <div class="modal-body">
-                                              {% csrf_token %}
-                                              <!-- Campos del formulario -->
-                                              <div class="form-group">
-                                                <label for="id_ingresos_anuales">Ingresos Anuales:</label>
-                                                <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_costos_fijos">Costos Fijos:</label>
-                                                <input type="number" name="costos_fijos" id="id_costos_fijos" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_costos_variables">Costos Variables:</label>
-                                                <input type="number" name="costos_variables" id="id_costos_variables" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_gastos_de_capital">Gastos de Capital:</label>
-                                                <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_metas_corto_largo_plazo">Metas Corto/Largo Plazo:</label>
-                                                <input type="text" name="metas_corto_largo_plazo" id="id_metas_corto_largo_plazo" class="form-control" maxlength="50" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_proyectos">Proyectos:</label>
-                                                <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_condiciones_economicas">Condiciones Económicas:</label>
-                                                <input type="text" name="condiciones_económicas" id="id_condiciones_economicas" class="form-control" maxlength="50" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_deudas_actuales">Deudas Actuales:</label>
-                                                <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_personal">Personal:</label>
-                                                <input type="number" name="personal" id="id_personal" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_costos_de_personal">Costos de Personal:</label>
-                                                <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_necesidades_tecnologicas">Necesidades Tecnológicas:</label>
-                                                <input type="text" name="necesidades_tecnológicas" id="id_necesidades_tecnologicas" class="form-control" maxlength="50" required>
-                                              </div>
-                                              <div class="form-group">
-                                                <label for="id_reservas_de_contingencia">Reservas de Contingencia:</label>
-                                                <input type="number" name="reservas_de_contingencia" id="id_reservas_de_contingencia" class="form-control" required>
-                                              </div>
-                                              <!-- Campos ocultos organizacion_id y user_id -->
-                                              <input type="hidden" name="organizacion_id" value="{{ org.id }}">
-                                              <input type="hidden" name="action_add" value="{{ action_add }}">
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                              <button type="submit" class="btn btn-primary">Guardar Reporte</button>
-                                            </div>
-                                          </form>
-                                        </div>
-                                      </div>
-                                    </div>
-
-                                </div>
-                                <div class="card-footer text-muted">
-                                    {{ user_organizacion.1 }} Auditoria(s) realizada(s)
-                                </div>
-                            </div>
-                        {% endwith %}
-                    {% endif %}
-                {% endfor %}
-
-            {% else %}
-                <p>{{ message }}</p>
-            {% endif %}
-            <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#orgModal">Añadir Organización</a>
-            <!-- Modal Org -->
-            <div class="modal fade" id="orgModal" tabindex="-1" role="dialog" aria-labelledby="orgModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="orgModalLabel">{{ title }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="orgFormulario" method="POST" action="{% url 'gestion_contraloria:organization_update' %}">
-                      {% csrf_token %}
-                      <input type="hidden" name="action_update" value="{{ action_update }}">
-                      <div class="form-group">
-                        <label for="seleccion">Selecciona una opción:</label>
-                        <select class="form-control" id="org_seleccion" name="id">
-                            {% for object in organizacion_list %}
-                                <option value={{ object.id }}>{{ object.nombre }}</option>
-                            {% endfor %}
-                        </select>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary" id="orgbtnAceptar">Aceptar</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>      
-        
+           {% include 'organizacion.html' %}
         {% elif request.path == "/report_list/" %}
-            {% include 'reporte.html' %}
+            {% include 'reporte/reporte_list.html' %}
         {% else %}
-          <h1>Otra página</h1>
+          <h1>Datos generales</h1>
         {% endif %}
          
     </div>
