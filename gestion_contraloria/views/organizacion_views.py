@@ -2,11 +2,13 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from ..mixins import IsSuperuserMixin, ValidatedPermissionRequiredMixin
 from ..models import *
 
-class OrganizacionListView(LoginRequiredMixin, ListView):
+class OrganizacionListView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, ListView):
     model = Organizacion
     template_name = 'dashboard/dashboard.html'
+    permission_required = ('organizacion.view_organizacion',)
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -38,9 +40,10 @@ class OrganizacionListView(LoginRequiredMixin, ListView):
         return context
 
 
-class OrganizacionUpdateView(LoginRequiredMixin, View):
+class OrganizacionUpdateView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, View):
     model = Organizacion
     template_name = 'dashboard/dashboard.html'
+    permission_required = ('organizacion.view_organizacion', 'organizacion.change_organizacion',)
     success_url = reverse_lazy('gestion_contraloria:organization_list')
     url_redirect = success_url
 
