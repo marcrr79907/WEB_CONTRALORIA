@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Organizacion(models.Model):
     
@@ -21,12 +22,8 @@ class Organizacion(models.Model):
 class Reporte(models.Model):
 
     ingresos_anuales = models.IntegerField()
-    costos_fijos = models.IntegerField()
-    costos_variables = models.IntegerField()
     gastos_de_capital = models.IntegerField()
-    metas_corto_largo_plazo = models.CharField(max_length=50)
     proyectos = models.IntegerField()
-    condiciones_económicas = models.CharField(max_length=50)
     deudas_actuales = models.IntegerField()
     personal = models.IntegerField()
     costos_de_personal = models.IntegerField()

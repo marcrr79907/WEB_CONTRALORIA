@@ -2,30 +2,43 @@
 <header>
 
   <!-- Navbar -->
-<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
       <a href="{% url 'gestion_contraloria:dashboard' %}" class="navbar-brand">
-        <span class="brand-text font-weight-light">CGR</span>
+          <span class="brand-text font-weight-light">GCR</span>
       </a>
 
-      <!-- Session navbar links -->
+      <!-- Sesion navbar links -->
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+
         {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url "user:login" %}" role="button">Iniciar Sesión
-                <i class="fas fa-sign-in-alt"></i>
-              </a>
+            {% if request.user.groups.all %}
+            	{% for g in request.user.groups.all %}
+                    <li class="nav-item m-2">
+                    <a class="btn btn-outline-primary ms-md-2" href="{% url 'user:logout' %}" role="button">
+                        {{ g.name }}
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+            <li class="nav-item m-2">
+            <a class="btn btn-danger ms-md-2" href="{% url 'user:logout' %}" role="button">Cerrar Sesión
+                <i class="fas fa-power-off power-off"></i>
+            </a>
             </li>
         {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="{% url "user:logout" %}" role="button">Cerrar Sesión
-                <i class="fas fa-power-off power-off"></i>
-              </a>
+            <li class="nav-item m-2">
+            <a class="btn btn-primary ms-md-2" href="{% url 'user:login' %}" role="button">Iniciar Sesión
+                <i class="fas fa-sign-in-alt"></i>
+            </a>
             </li>
         {% endif %}
+
+
       </ul>
     </div>
   </nav>
-
   <!-- /.navbar -->
+
 </header>

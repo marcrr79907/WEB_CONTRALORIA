@@ -5,10 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from ..mixins import IsSuperuserMixin, ValidatedPermissionRequiredMixin
 from ..models import *
 
-class OrganizacionListView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, ListView):
+class OrganizacionListView(LoginRequiredMixin, ListView):
     model = Organizacion
     template_name = 'dashboard/dashboard.html'
-    permission_required = ('organizacion.view_organizacion',)
+    # permission_required = 'organizacion.view_organizacion'
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -40,10 +40,10 @@ class OrganizacionListView(LoginRequiredMixin, ValidatedPermissionRequiredMixin,
         return context
 
 
-class OrganizacionUpdateView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, View):
+class OrganizacionUpdateView(LoginRequiredMixin, View):
     model = Organizacion
     template_name = 'dashboard/dashboard.html'
-    permission_required = ('organizacion.view_organizacion', 'organizacion.change_organizacion',)
+    # permission_required = 'organizacion.change_organizacion'
     success_url = reverse_lazy('gestion_contraloria:organization_list')
     url_redirect = success_url
 

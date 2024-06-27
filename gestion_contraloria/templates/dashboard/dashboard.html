@@ -27,13 +27,19 @@
 
     <!-- Main content -->
     <div class="container p-3">
-        {% if request.path == "/organization_list/" %}
-           {% include 'organizacion.html' %}
-        {% elif request.path == "/report_list/" %}
-            {% include 'reporte/reporte_list.html' %}
-        {% else %}
-          <h1>Datos generales</h1>
-        {% endif %}
+    {% if request.user.groups.all %}
+        {% with request.user.groups.all.0 as group %}
+            
+        	{% if group.name == 'Auditor' %}
+                {% include 'dashboard/auditor_dashboard.html' %}
+            {% elif group.name == 'Gerente' %}
+                {% include 'dashboard/gerente_dashboard.html' %}
+            {% endif %}
+        {% endwith %}
+        
+    {% else %}    
+        No tiene un rol definido
+    {% endif %}
          
     </div>
     
