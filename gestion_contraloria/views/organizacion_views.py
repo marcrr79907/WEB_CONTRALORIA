@@ -59,8 +59,14 @@ class OrganizacionUpdateView(LoginRequiredMixin, AuditorRequiredMixin, View):
                 if organizacion:
                     if organizacion.en_supervision:
                         organizacion.en_supervision = None
+                        request.session['data'] = {
+                            'success_message': 'La organización se ha eliminado con éxito.',
+                        }
                     else:
                         organizacion.en_supervision = self.request.user
+                        request.session['data'] = {
+                            'success_message': 'La organización se ha añadido con éxito.',
+                        }
 
                     organizacion.save()
                     data['form_is_valid'] = True
@@ -73,10 +79,7 @@ class OrganizacionUpdateView(LoginRequiredMixin, AuditorRequiredMixin, View):
             print(data['error'])
 
         if data['form_is_valid']:
-            request.session['data'] = {
-                'success_message': 'La organización se ha añadido con éxito.',
-                'delete_message': 'La organización se ha eliminado con éxito.',
-            }
+
             return redirect(self.success_url)
         else:
             request.session['data'] = {

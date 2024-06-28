@@ -16,11 +16,7 @@ class IsSuperuserMixin(object):
 
 class AuditorRequiredMixin(UserPassesTestMixin):
     def test_func(self):
-        es_auditor = self.request.user.groups.filter(name='Auditor').exists()
-        es_gerente = self.request.user.groups.filter(name='Gerente').exists()
-        has_perms = es_auditor or es_gerente
-
-        return has_perms
+        return self.request.user.groups.filter(name='Auditor').exists()
 
     def handle_no_permission(self):
         messages.error(self.request, 'No tiene permisos para acceder a este módulo.')
