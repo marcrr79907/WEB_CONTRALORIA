@@ -23,6 +23,7 @@ class ValidatedPermissionRequiredMixin(object):
             perms = (self.permission_required,)
         else:
             perms = self.permission_required
+        print(perms)
         return perms
 
     def get_url_redirect(self):
@@ -30,8 +31,8 @@ class ValidatedPermissionRequiredMixin(object):
             return reverse_lazy('gestion_contraloria:dashboard')
         return self.url_redirect
     def dispatch(self, request, *args, **kwargs):
-
-        if request.user.has_perm(self.get_perms()):
+        print(request.user)
+        if request.user.has_perms(self.get_perms()):
             return super().dispatch(request, *args, **kwargs)
 
         messages.error(request, 'No tiene permisos para acceder a este módulo.')

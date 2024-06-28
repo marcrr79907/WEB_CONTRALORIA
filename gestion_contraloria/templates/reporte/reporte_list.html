@@ -12,88 +12,158 @@
 
 {% block contenido %}
 
-    <table id="listar_reportes" class="table table-bordered table-striped">
-        <thead class="bg-secondary">
+    <table id="report_list" class="display compact" style="width:100%">
+        <thead>
             <tr>
-				<th>Organización</th>
-				<th>Ingresos Anuales</th>
-				<th>Gastos Capital</th>
-				<th>Proyectos</th>
-				<th>Deudas Actuales</th>
-				<th>Personal</th>
-				<th>Costos Personal</th>
-				<th>Necesidades</th>
-				<th>Reservas</th>
-				<th>Fecha</th>
+                <th>Organización</th>
+                <th>Elaborado por...</th>
+                <th>Ingresos</th>
+                <th>Gastos</th>
+                <th>Proyectos</th>
+                <th>Deudas</th>
+                <th>Personal</th>
+                <th>Costos_de_personal</th>
+                <th>Fecha</th>
                 <th>Acciones</th>
             </tr>
-        </thead>        
+        </thead>
         <tbody>
-            {% for reporte in reporte_list %}
-                <tr>
-					<td>{{ reporte.organizacion_id.nombre }}</td>
-					<td>{{ reporte.ingresos_anuales }}</td>
-					<td>{{ reporte.gastos_de_capital }}</td>				
-					<td>{{ reporte.proyectos }}</td>
-					<td>{{ reporte.deudas_actuales }}</td>
-					<td>{{ reporte.personal }}</td>
-					<td>{{ reporte.costos_de_personal }}</td>
-					<td>{{ reporte.necesidades_tecnológicas }}</td>
-					<td>{{ reporte.reservas_de_contingencia }}</td>
-					<td>{{ reporte.fecha }}</td>
-                    
-                    <td class="center_data">
-						<div class="btn-group">
-							<a href="#" title="Ver Detalles">
-								<button type="button" class="btn btn-info">
-									<i class="fas fa-file-pdf"></i>
-								</button>
-							</a>
-							
-							<a href="#" title="Editar">
-								<button type="button" class="btn btn-secondary">
-									<i class="fas fa-edit"></i>
-								</button>
-							</a>		
-									
-							<button type="button" class="btn btn-danger" onclick="eliminar_reporte({{ reporte.id }});" title="Eliminar">
-								<i class="fas fa-trash"></i>
-							</button>							
-						</div>               
+            {% for user_report in user_report_list if request  endif  %}
+            	<tr>
+                    <td>{{ user_report.organizacion_id.id }}</td>
+                    <td>{{ user_report.user_id }}</td>
+                    <td>{{ user_report.ingresos_anuales }}</td>
+                    <td>{{ user_report.gastos_de_capital }}</td>
+                    <td>{{ user_report.proyectos }}</td>
+                    <td>{{ user_report.deudas_actuales }}</td>
+                    <td>{{ user_report.personal }}</td>
+                    <td>{{ user_report.costos_de_personal }}</td>
+                    <td>{{ user_report.fecha }}</td>
+                    <td>
+                        <a class="btn btn-warning" data-toggle="modal" data-target="#editReporteModal" role="button">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <div class="modal fade" id="editReporteModal" aria-labelledby="editReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="editReporteModalLabel">Reporte</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <form action="{% url 'gestion_contraloria:report_update' user_report.id %}" method="post">
+                                <div class="modal-body">
+                                  {% csrf_token %}
+                                  <!-- Campos del formulario -->
+                                  <div class="form-group">
+                                    <label for="id_ingresos_anuales">Ingresos Anuales:</label>
+                                    <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="id_gastos_de_capital">Gastos de Capital:</label>
+                                    <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="id_proyectos">Proyectos:</label>
+                                    <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="id_deudas_actuales">Deudas Actuales:</label>
+                                    <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="id_personal">Personal:</label>
+                                    <input type="number" name="personal" id="id_personal" class="form-control" required>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="id_costos_de_personal">Costos de Personal:</label>
+                                    <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
+                                  </div>
+                                  <!-- Campos ocultos -->
+                                  <input type="hidden" name="action_update" value="{{ action_update }}">
+                                  <input type="hidden" name="organizacion_id" value="{{ user_report.organizacion_id.id }}">
+                                  <input type="hidden" name="rep_id" value="{{ user_report.id }}">
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                  <button type="submit" class="btn btn-primary">Guardar Reporte</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        <a class="btn btn-warning" href="{% url 'gestion_contraloria:report_delete' user_report.id %}" role="button">
+                            <i class="fas fa-recycle"></i>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
+            
+            
         </tbody>
     </table>
 {% endblock %}
 
-{% block scriptjs %}
 <script>
-	$(function () {
-		//----------------------------------------------------------------------------------
-		var titulo = "Listado de reportes";
-		$("#listar_reportes").DataTable({
-			"responsive": true,
-			"paging": true,
-			"lengthChange": true,
-			"searching": true,
-			"ordering": true,
-			"info": true,
-			"autoWidth": false,
-			"aoColumnDefs": [no_ordenar([5,6,7,8,9])],
-			"buttons": [
-			  btn_pdf(titulo, [0, 1, 2, 3, 4, 5, 6, 7, 8], "h"),
-			  btn_print(titulo, [0, 1, 2, 3, 4, 5, 6, 7, 8]),
-			  btn_colvis(),    
-			],
-			"language": datatable_espannol,
-		}).buttons().container().appendTo('#listar_reportes_wrapper .col-md-6:eq(0)');
-		//----------------------------------------------------------------------------------
-	})
-	//----------------------------------------------------------------------------------
-	function eliminar_reporte(id){
-	  eliminar_generico("confirmar_eliminar_reporte", id, "eliminar_reporte_secret")
-	}
-	//----------------------------------------------------------------------------------
+new DataTable('#report_list', {
+    dom: 'Bfrtip',
+    buttons: [
+        {
+            extend: 'copy',
+            exportOptions: {
+                columns: ':not(:last-child)'
+            }
+        },
+        {
+            extend: 'csv',
+            exportOptions: {
+                columns: ':not(:last-child)'
+            }
+        },
+        {
+            extend: 'excel',
+            exportOptions: {
+                columns: ':not(:last-child)'
+            }
+        },
+        {
+            extend: 'pdf',
+            exportOptions: {
+                columns: ':not(:last-child)'
+            }
+        },
+        {
+            extend: 'print',
+            exportOptions: {
+                columns: ':not(:last-child)'
+            }
+        }
+    ],
+    language: {
+            "sProcessing":     "Procesando...",
+            "sLengthMenu":     "Mostrar _MENU_ registros",
+            "sZeroRecords":    "No se encontraron resultados",
+            "sEmptyTable":     "Ningún dato disponible en esta tabla",
+            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix":    "",
+            "sSearch":         "Buscar:",
+            "sUrl":            "",
+            "sInfoThousands":  ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst":    "Primero",
+                "sLast":     "Último",
+                "sNext":     "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+});
 </script>
-{% endblock %}

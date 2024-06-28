@@ -50,12 +50,11 @@
                             
                             <!-- Modal Auditar -->
                             <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#crearReporteModal">Auditar</a>
-                            
-                            <div class="modal fade" id="crearReporteModal" tabindex="-1" role="dialog" aria-labelledby="crearReporteModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="crearReporteModal" aria-labelledby="crearReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
                               <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h5 class="modal-title" id="crearReporteModalLabel">Crear Reporte</h5>
+                                    <h5 class="modal-title" id="crearReporteModalLabel">Reporte</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                       <span aria-hidden="true">&times;</span>
                                     </button>
@@ -77,10 +76,6 @@
                                         <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
                                       </div>
                                       <div class="form-group">
-                                        <label for="id_condiciones_economicas">Condiciones Económicas:</label>
-                                        <input type="text" name="condiciones_económicas" id="id_condiciones_economicas" class="form-control" maxlength="50" required>
-                                      </div>
-                                      <div class="form-group">
                                         <label for="id_deudas_actuales">Deudas Actuales:</label>
                                         <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
                                       </div>
@@ -91,14 +86,6 @@
                                       <div class="form-group">
                                         <label for="id_costos_de_personal">Costos de Personal:</label>
                                         <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_necesidades_tecnologicas">Necesidades Tecnológicas:</label>
-                                        <input type="text" name="necesidades_tecnológicas" id="id_necesidades_tecnologicas" class="form-control" maxlength="50" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_reservas_de_contingencia">Reservas de Contingencia:</label>
-                                        <input type="number" name="reservas_de_contingencia" id="id_reservas_de_contingencia" class="form-control" required>
                                       </div>
                                       <!-- Campos ocultos organizacion_id y user_id -->
                                       <input type="hidden" name="organizacion_id" value="{{ org.id }}">
