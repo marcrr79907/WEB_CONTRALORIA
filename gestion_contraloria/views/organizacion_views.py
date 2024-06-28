@@ -2,10 +2,10 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from ..mixins import IsSuperuserMixin, ValidatedPermissionRequiredMixin
+from ..mixins import IsSuperuserMixin, AuditorRequiredMixin, GerenteRequiredMixin
 from ..models import *
 
-class OrganizacionListView(LoginRequiredMixin, ListView):
+class OrganizacionListView(LoginRequiredMixin, AuditorRequiredMixin, GerenteRequiredMixin, ListView):
     model = Organizacion
     template_name = 'dashboard/dashboard.html'
     # permission_required = 'organizacion.view_organizacion'
@@ -40,7 +40,7 @@ class OrganizacionListView(LoginRequiredMixin, ListView):
         return context
 
 
-class OrganizacionUpdateView(LoginRequiredMixin, View):
+class OrganizacionUpdateView(LoginRequiredMixin, AuditorRequiredMixin, View):
     model = Organizacion
     template_name = 'dashboard/dashboard.html'
     # permission_required = 'organizacion.change_organizacion'

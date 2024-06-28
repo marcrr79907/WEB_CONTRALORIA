@@ -3,12 +3,13 @@ from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, View, CreateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from ..mixins import IsSuperuserMixin, AuditorRequiredMixin, GerenteRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import *
 from ..forms import ReportForm
 
 
-class ReporteListView(LoginRequiredMixin, ListView):
+class ReporteListView(LoginRequiredMixin, AuditorRequiredMixin, GerenteRequiredMixin, ListView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
     context_object_name = 'user_report_list'
@@ -47,7 +48,7 @@ class ReporteListView(LoginRequiredMixin, ListView):
         return context
 
 
-class ReporteCreateView(LoginRequiredMixin, CreateView):
+class ReporteCreateView(LoginRequiredMixin, AuditorRequiredMixin, CreateView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
     form_class = ReportForm
@@ -83,7 +84,7 @@ class ReporteCreateView(LoginRequiredMixin, CreateView):
             return redirect(self.success_url)
 
 
-class ReporteUpdateView(LoginRequiredMixin, UpdateView):
+class ReporteUpdateView(LoginRequiredMixin, AuditorRequiredMixin, UpdateView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
     form_class = ReportForm
@@ -124,7 +125,7 @@ class ReporteUpdateView(LoginRequiredMixin, UpdateView):
             return redirect(self.success_url)
 
 
-class ReporteDeleteView(LoginRequiredMixin, DeleteView):
+class ReporteDeleteView(LoginRequiredMixin, AuditorRequiredMixin, DeleteView):
     model = Reporte
     success_url = reverse_lazy('gestion_contraloria:report_list')
     template_name = 'reporte/eliminar.html'
