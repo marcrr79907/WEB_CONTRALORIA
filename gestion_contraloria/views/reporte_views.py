@@ -1,4 +1,5 @@
 import requests
+from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, View, CreateView, DeleteView
@@ -10,23 +11,34 @@ from ..forms import ReportForm
 class ReporteListView(LoginRequiredMixin, ListView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
+    context_object_name = 'user_report_list'
 
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+    def get_queryset(self):
+        user = self.request.user
+        grupo_gerente = Group.objects.get(name='Gerente')
+        grupo_auditor = Group.objects.get(name='Auditor')
+
+        if grupo_gerente in user.groups.all():
+            # Gerente, puede ver todos los reportes de Auditores
+            return Reporte.objects.filter(user_id__groups=grupo_auditor)
+        elif grupo_auditor in user.groups.all():
+            # Auditor, solo puede ver sus propios reportes
+            return Reporte.objects.filter(user_id=user)
+        else:
+            # Manejar otros grupos o usuarios que no pertenecen a Gerente ni Auditor
+            return Reporte.objects.none()
+
+
+
 
     def get_context_data(self, **kwargs):
-
-        user_report_list = Reporte.objects.filter(
-            user_id=self.request.user
-        )
-        reportes = Reporte.objects.filter()
 
         context = super().get_context_data(**kwargs)
         context['title_list'] = 'Reporte(s)'
         context['title'] = 'Añadir Reporte'
         context['entity'] = Reporte
-        context['user_report_list'] = user_report_list
-        context['reportes'] = reportes
         context['action_add'] = 'add'
         context['action_update'] = 'update'
         context['message'] = 'No se ha creado ningún reporte'
