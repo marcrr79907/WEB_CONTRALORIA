@@ -3,15 +3,16 @@ from django.contrib.auth.models import Group
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, UpdateView, View, CreateView, DeleteView
-from ..mixins import IsSuperuserMixin, AuditorRequiredMixin, GerenteRequiredMixin
+from ..mixins import IsSuperuserMixin, ValidatedPermissionRequiredMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import *
 from ..forms import ReportForm
 
 
-class ReporteListView(LoginRequiredMixin, AuditorRequiredMixin, GerenteRequiredMixin, ListView):
+class ReporteListView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, ListView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
+    permission_required = 'view_reporte'
     context_object_name = 'user_report_list'
 
     def dispatch(self, request, *args, **kwargs):
@@ -48,9 +49,10 @@ class ReporteListView(LoginRequiredMixin, AuditorRequiredMixin, GerenteRequiredM
         return context
 
 
-class ReporteCreateView(LoginRequiredMixin, AuditorRequiredMixin, CreateView):
+class ReporteCreateView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, CreateView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
+    permission_required = 'add_reporte'
     form_class = ReportForm
     success_url = reverse_lazy('gestion_contraloria:report_list')
 
@@ -84,9 +86,10 @@ class ReporteCreateView(LoginRequiredMixin, AuditorRequiredMixin, CreateView):
             return redirect(self.success_url)
 
 
-class ReporteUpdateView(LoginRequiredMixin, AuditorRequiredMixin, UpdateView):
+class ReporteUpdateView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, UpdateView):
     model = Reporte
     template_name = 'dashboard/dashboard.html'
+    permission_required = 'change_reporte'
     form_class = ReportForm
     success_url = reverse_lazy('gestion_contraloria:report_list')
 
@@ -125,10 +128,11 @@ class ReporteUpdateView(LoginRequiredMixin, AuditorRequiredMixin, UpdateView):
             return redirect(self.success_url)
 
 
-class ReporteDeleteView(LoginRequiredMixin, AuditorRequiredMixin, DeleteView):
+class ReporteDeleteView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, DeleteView):
     model = Reporte
     success_url = reverse_lazy('gestion_contraloria:report_list')
     template_name = 'reporte/eliminar.html'
+    permission_required = 'delete_reporte'
 
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()

@@ -14,44 +14,42 @@ class IsSuperuserMixin(object):
         return redirect('/admin/')
 
 
-class AuditorRequiredMixin(UserPassesTestMixin):
-    def test_func(self):
-        return self.request.user.groups.filter(name='Auditor').exists()
-
-    def handle_no_permission(self):
-        messages.error(self.request, 'No tiene permisos para acceder a este módulo.')
-        return redirect('gestion_contraloria:dashboard')
-
-class GerenteRequiredMixin(UserPassesTestMixin):
-    def test_func(self):
-        return self.request.user.groups.filter(name='Gerente').exists()
-
-    def handle_no_permission(self):
-        messages.error(self.request, 'No tiene permisos para acceder a este módulo.')
-        return redirect('gestion_contraloria:dashboard')
-
 
 class ValidatedPermissionRequiredMixin(object):
 
     permission_required = ''
     url_redirect = None
 
-    def get_perms(self):
-        if isinstance(self.permission_required, str):
-            perms = (self.permission_required,)
-        else:
-            perms = self.permission_required
-        print(perms)
-        return perms
 
     def get_url_redirect(self):
         if self.url_redirect is None:
             return reverse_lazy('gestion_contraloria:dashboard')
         return self.url_redirect
+
+
+    def get_perms(self):
+        perms = []
+        if isinstance(self.permission_required, str):
+            perms.append(self.permission_required)
+        else:
+            perms = list(self.permission_required)
+        print(perms)
+        return perms
+
     def dispatch(self, request, *args, **kwargs):
-        print(request.user)
-        if request.user.has_perms(self.get_perms()):
+
+        if request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        user_group = request.user.groups.all()[0]
+        print(user_group)
+        perms = self.get_perms()
+        if user_group:
+            for p in perms:
+                if not user_group.permissions.filter(codename=p).exists():
+                    messages.error(request, 'No tiene permisos para este modulo.')
+                    return HttpResponseRedirect(self.get_url_redirect())
             return super().dispatch(request, *args, **kwargs)
 
-        messages.error(request, 'No tiene permisos para acceder a este módulo.')
+        messages.error(request, 'No tiene permisos para este modulo.')
         return HttpResponseRedirect(self.get_url_redirect())
+
