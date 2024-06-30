@@ -2,6 +2,6 @@
    {% include 'organizacion.html' %}
 {% elif request.path == "/report_list/" %}
     {% include 'reporte/reporte_list.html' %}
-{% else %}
-  <h1>Datos generales</h1>
+{% elif request.path == "/dashboard/" %}
+    {% include 'organizacion.html' %}
 {% endif %}

@@ -16,18 +16,29 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'gestion_contraloria:dashboard' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Datos generales</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{% url 'gestion_contraloria:organization_list' %}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Organizaciones</p>
-                </a>
-              </li>
+                {% if request.user.groups.all %}
+                    {% with request.user.groups.all.0 as group %}
+            
+                        {% if group.name == 'Gerente' %}
+                            <li class="nav-item">
+                                <a href="{% url 'gestion_contraloria:dashboard' %}" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Datos generales</p>
+                                </a>
+                            </li>
+                        {% elif group.name == 'Auditor' %}
+                            <li class="nav-item">
+                                <a href="{% url 'gestion_contraloria:organization_list' %}" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Organizaciones</p>
+                                </a>
+                            </li>
+                        {% endif %}
+                            
+                    {% endwith %}
+                {% endif %}
+              
+              
               <li class="nav-item">
                 <a href="{% url 'gestion_contraloria:report_list' %}" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>

@@ -9,7 +9,11 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="{% url 'gestion_contraloria:dashboard' %}" class="navbar-brand">
+            <a {% if user.is_authenticated %}
+                    href="{% url 'gestion_contraloria:dashboard' %}"
+                {% else %}
+                    href="{% url 'plantilla:index' %}"
+                {% endif %}class="navbar-brand">
               <span class="brand-text font-weight-light">GCR</span>
             </a>
           </li>
@@ -23,7 +27,7 @@
             {% if request.user.groups.all %}
             	{% for g in request.user.groups.all %}
                     <li class="nav-item m-2">
-                    <a class="btn btn-outline-primary ms-md-2" href="{% url 'user:logout' %}" role="button">
+                    <a class="btn btn-outline-primary ms-md-2" href="#" role="button">
                         {{ g.name }}
                         <i class="fas fa-user-circle"></i>
                     </a>
