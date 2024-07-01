@@ -1,7 +1,5 @@
-{% if request.path == "/organization_list/" %}
+{% if request.path == "/organization_list/"%}
    {% include 'organizacion.html' %}
 {% elif request.path == "/report_list/" %}
     {% include 'reporte/reporte_list.html' %}
-{% elif request.path == "/dashboard/" %}
-    {% include 'organizacion.html' %}
 {% endif %}

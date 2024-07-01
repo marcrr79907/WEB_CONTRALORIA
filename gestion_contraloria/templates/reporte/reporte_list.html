@@ -1,17 +1,7 @@
 {% load static %}
 
-{% block breadcrumb %}
-    <li class="breadcrumb-item">
-		<i class="fa fa-list"></i> {{ titulo }}
-	</li>
-{% endblock %}
-
-{% block titulo %}
-    {{ titulo }}
-{% endblock %}
-
 {% block contenido %}
-
+    
     <table id="report_list" class="display compact" style="width:100%">
         <thead>
             <tr>
@@ -24,13 +14,15 @@
                 <th>Personal</th>
                 <th>Costos_de_personal</th>
                 <th>Fecha</th>
+                {% if user_group.name == 'Auditor' %}
                 <th>Acciones</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
             {% for user_report in user_report_list %}
             	<tr>
-                    <td>{{ user_report.organizacion_id.id }}</td>
+                    <td>{{ user_report.organizacion_id }}</td>
                     <td>{{ user_report.user_id }}</td>
                     <td>{{ user_report.ingresos_anuales }}</td>
                     <td>{{ user_report.gastos_de_capital }}</td>
@@ -39,7 +31,8 @@
                     <td>{{ user_report.personal }}</td>
                     <td>{{ user_report.costos_de_personal }}</td>
                     <td>{{ user_report.fecha }}</td>
-                    <td>
+                    {% if user_group.name == 'Auditor' %}
+                    	<td>
                         <a class="btn btn-warning" data-toggle="modal" data-target="#editReporteModal" role="button">
                             <i class="fas fa-edit"></i>
                         </a>
@@ -98,6 +91,8 @@
                             <i class="fas fa-recycle"></i>
                         </a>
                     </td>
+                    {% endif %} 
+                    
                 </tr>
             {% endfor %}
             
@@ -111,31 +106,7 @@ new DataTable('#report_list', {
     dom: 'Bfrtip',
     buttons: [
         {
-            extend: 'copy',
-            exportOptions: {
-                columns: ':not(:last-child)'
-            }
-        },
-        {
-            extend: 'csv',
-            exportOptions: {
-                columns: ':not(:last-child)'
-            }
-        },
-        {
-            extend: 'excel',
-            exportOptions: {
-                columns: ':not(:last-child)'
-            }
-        },
-        {
             extend: 'pdf',
-            exportOptions: {
-                columns: ':not(:last-child)'
-            }
-        },
-        {
-            extend: 'print',
             exportOptions: {
                 columns: ':not(:last-child)'
             }

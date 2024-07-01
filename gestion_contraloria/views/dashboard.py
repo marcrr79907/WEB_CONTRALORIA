@@ -1,5 +1,7 @@
+from django.shortcuts import redirect
+
 from ..mixins import IsSuperuserMixin
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from ..models import *
 from datetime import datetime
@@ -8,6 +10,18 @@ from datetime import datetime
 class DashboardView(LoginRequiredMixin, IsSuperuserMixin, TemplateView):
 
     template_name = 'dashboard/dashboard.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_superuser:
+            return redirect('/admin/')
+        user = request.user
+        print(type(user.groups.all()[0]))
+        if user.groups.all():
+            if str(user.groups.all()[0]) == 'Auditor':
+
+                return redirect('gestion_contraloria:organization_list')
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_reports_year_month(self):
         data = []
@@ -20,20 +34,9 @@ class DashboardView(LoginRequiredMixin, IsSuperuserMixin, TemplateView):
             pass
         return data
 
-    def get_orgs(self):
-        data = []
-        try:
-            org_reports = Reporte.objects.all()
-            for r in org_reports:
-                Organizacion.objects.filter(pk=r.organizacion_id).count()
-
-            data.append(reports)
-        except:
-            pass
-        return data
-
     def get_context_data(self, **kwargs):
+
+
         context = super().get_context_data(**kwargs)
         context['reportes_anno_mes'] = self.get_reports_year_month()
-        context['auditorias'] = self.get_orgs()
         return context

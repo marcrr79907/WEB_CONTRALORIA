@@ -14,6 +14,15 @@ from core import settings
 class UsersLoginView(LoginView):
     template_name = 'login.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user
+
+        if user.is_authenticated:
+            return redirect(settings.LOGIN_REDIRECT_URL)
+
+        return super().dispatch(request, *args, **kwargs)
+
+
   
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = User
