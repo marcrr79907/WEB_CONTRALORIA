@@ -1,142 +1,157 @@
+{% block content %}
 <div class="container justify-content-center">
     <div class="container pb-3">
-        <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#orgModal">Añadir Organización</a>
+        <a type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#orgModal">Añadir Organización</a>
         <!-- Modal Org -->
         <div class="modal fade" id="orgModal" tabindex="-1" role="dialog" aria-labelledby="orgModalLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="orgModalLabel">{{ title }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <form id="orgFormulario" method="POST" action="{% url 'gestion_contraloria:organization_update' %}">
-                  {% csrf_token %}
-                  <input type="hidden" name="action_update" value="{{ action_update }}">
-                  <div class="form-group">
-                    <label for="seleccion">Selecciona una opción:</label>
-                    <select class="form-control" id="org_seleccion" name="id">
-                        {% for object in organizacion_list %}
-                            <option value={{ object.id }}>{{ object.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" id="orgbtnAceptar">Aceptar</button>
-                  </div>
-                </form>
-              </div>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orgModalLabel">{{ title }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="orgFormulario" method="POST" action="{% url 'gestion_contraloria:organization_update' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="action_update" value="{{ action_update }}">
+                            <div class="form-group">
+                                <label for="seleccion">Selecciona una opción:</label>
+                                <select class="form-control" id="org_seleccion" name="id">
+                                    {% for object in organizacion_list %}
+                                        <option value="{{ object.id }}">{{ object.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="orgbtnAceptar">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
     </div>
-    {% if user_organizacion_list %}
-        {% for user_organizacion in user_organizacion_list %}
-            {% if user_organizacion %}
-                {% with org=user_organizacion.0 %}
-                    <div class="card text-center col-3">
-                        <div class="card-header">
-                            {{ org.nombre }}
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">{{ org.descripcion }}</p>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">{{ org.direccion }}</li>
-                                <li class="list-group-item">{{ org.telefono }}</li>
-                            </ul>
-                            
-                            <!-- Modal Auditar -->
-                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#crearReporteModal">Auditar</a>
-                            <div class="modal fade" id="crearReporteModal" aria-labelledby="crearReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="crearReporteModalLabel">Reporte</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <form action="{% url 'gestion_contraloria:report_create' %}" method="post">
-                                    <div class="modal-body">
-                                      {% csrf_token %}
-                                      <!-- Campos del formulario -->
-                                      <div class="form-group">
-                                        <label for="id_ingresos_anuales">Ingresos Anuales:</label>
-                                        <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_gastos_de_capital">Gastos de Capital:</label>
-                                        <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_proyectos">Proyectos:</label>
-                                        <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_deudas_actuales">Deudas Actuales:</label>
-                                        <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_personal">Personal:</label>
-                                        <input type="number" name="personal" id="id_personal" class="form-control" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="id_costos_de_personal">Costos de Personal:</label>
-                                        <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
-                                      </div>
-                                      <!-- Campos ocultos organizacion_id y user_id -->
-                                      <input type="hidden" name="organizacion_id" value="{{ org.id }}">
-                                      <input type="hidden" name="action_add" value="{{ action_add }}">
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                      <button type="submit" class="btn btn-primary">Guardar Reporte</button>
-                                    </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>
-                            <a type="button" class="btn btn-danger" data-toggle="modal" data-target="#orgQuitModal">Quitar Organización</a>
-                            <!-- Modal Org -->
-                            <div class="modal fade" id="orgQuitModal" tabindex="-1" role="dialog" aria-labelledby="orgQuitModalLabel" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="orgQuitModalLabel">{{ title }}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <div class="modal-body">
-                                    <form id="orgQuitFormulario" method="POST" action="{% url 'gestion_contraloria:organization_update' %}">
-                                      {% csrf_token %}
-                                      <input type="hidden" name="action_update" value="{{ action_update }}">
-                                      <input type="hidden" name="id" value="{{ org.id }}">
-                                      <p>Desea quitar la organización?</p>
-                                      <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                                        <button type="submit" class="btn btn-danger" id="orgbtnAceptar">Sí</button>
-                                      </div>
-                                    </form>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
 
+    {% if user_organizacion_list %}
+        <div class="row">
+            {% for user_organizacion in user_organizacion_list %}
+                {% if user_organizacion %}
+                    {% with org=user_organizacion.0 %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card text-center">
+                                <div class="card-header bg-primary">
+                                    {{ org.nombre }}
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Descripcipón: {{ org.descripcion }}</p>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <i class="fas fa-map-marker-alt"></i> {{ org.direccion }}
+                                        </li>
+                                        <li class="list-group-item">
+                                            <i class="fas fa-phone-alt"></i> {{ org.telefono }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="card-footer text-muted">
+                                    <div class="row col-12 px-2">
+                                        <!-- Modal Auditar -->
+                                        <a href="#" class="btn btn-warning col-6 mb-2" data-toggle="modal" data-target="#crearReporteModal">Auditar</a>
+                                        <div class="modal fade" id="crearReporteModal" aria-labelledby="crearReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="crearReporteModalLabel">Reporte</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="{% url 'gestion_contraloria:report_create' %}" method="post">
+                                                        <div class="modal-body">
+                                                            {% csrf_token %}
+                                                            <!-- Campos del formulario -->
+                                                            <div class="form-group">
+                                                                <label for="id_ingresos_anuales">Ingresos Anuales:</label>
+                                                                <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="id_gastos_de_capital">Gastos de Capital:</label>
+                                                                <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="id_proyectos">Proyectos:</label>
+                                                                <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="id_deudas_actuales">Deudas Actuales:</label>
+                                                                <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="id_personal">Personal:</label>
+                                                                <input type="number" name="personal" id="id_personal" class="form-control" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="id_costos_de_personal">Costos de Personal:</label>
+                                                                <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
+                                                            </div>
+                                                            <!-- Campos ocultos organizacion_id y user_id -->
+                                                            <input type="hidden" name="organizacion_id" value="{{ org.id }}">
+                                                            <input type="hidden" name="action_add" value="{{ action_add }}">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-primary">Guardar Reporte</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a type="button" class="btn btn-danger col-6 mb-2" data-toggle="modal" data-target="#orgQuitModal">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                        <!-- Modal Org -->
+                                        <div class="modal fade" id="orgQuitModal" tabindex="-1" role="dialog" aria-labelledby="orgQuitModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="orgQuitModalLabel">{{ title }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form id="orgQuitFormulario" method="POST" action="{% url 'gestion_contraloria:organization_update' %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="action_update" value="{{ action_update }}">
+                                                            <input type="hidden" name="id" value="{{ org.id }}">
+                                                            <p>Desea quitar la organización?</p>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                                                <button type="submit" class="btn btn-danger" id="orgbtnAceptar">Sí</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        
+                                    <div>
+                                    <p>{{ user_organizacion.1 }} Auditoria(s) realizada(s)</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-footer text-muted">
-                            {{ user_organizacion.1 }} Auditoria(s) realizada(s)
-                        </div>
-                    </div>
-                {% endwith %}
-            {% endif %}
-        {% endfor %}
-    
+                    {% endwith %}   
+                {% endif %}
+            {% endfor %}
+        </div>
     {% else %}
         <p>{{ message }}</p>
     {% endif %}
-
 </div>
+{% endblock content %}

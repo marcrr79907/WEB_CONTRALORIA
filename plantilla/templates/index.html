@@ -2,5 +2,31 @@
 {% load static %}
 
 {% block content %}
-    INDEX
+<!-- Main Content -->
+    <div class="container main-content">
+        <div class="row">
+            <div class="col-12" style="background: url(&quot;{% static 'dist/img/index_img.jpg' %} &quot;) top / cover no-repeat;">
+                <div class="container p-5 col-12">
+                    <h2 class="text-light">Plan de acciones de control</h2>
+                    <p class="text-light">
+                        * aquí va texto muele rdfgdgfdgf dgdgfdgf dgfdgfd gfdgfdgfdg ffffffffffffffffffffffffdfd
+                        dfdfgfdgfg gggggggggggg ggggggggg gggggg gggggggg gggggggg gggggggg gggggggg ggggggggg
+                        ggggggggg gggggggg ggggggggg gggggggg gggggggg gggggggg ggggggggg gggggggg gggggggggg
+                    </p>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">Revisar los procedimientos actuales.</li>
+                    <li class="list-group-item">Implementar nuevas políticas de seguridad.</li>
+                    <li class="list-group-item">Capacitar al personal sobre nuevas normativas.</li>
+                    <li class="list-group-item">Monitorear y evaluar el rendimiento de los sistemas.</li>
+                    <li class="list-group-item">Realizar auditorías internas regularmente.</li>
+                </ul>
+                <div class="quote">
+                    <p>...dejar de prever es un delito público: y un delito mayor no obrar, por incapacidad o por miedo, en acuerdo con lo que se prevé</p>
+                    <img src="{% static 'dist/img/images.jpeg' %}" style="height: 80px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock content %}

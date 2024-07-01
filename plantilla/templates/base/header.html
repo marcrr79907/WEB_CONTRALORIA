@@ -1,56 +1,27 @@
 {% load static %}
 <header>
-
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-    <div class="container">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-          </li>
-          <li class="nav-item d-none d-sm-inline-block">
-            <a {% if user.is_authenticated %}
-                    href="{% url 'gestion_contraloria:dashboard' %}"
-                {% else %}
-                    href="{% url 'plantilla:index' %}"
-                {% endif %}class="navbar-brand">
-              <span class="brand-text font-weight-light">GCR</span>
-            </a>
-          </li>
-        </ul>
-
-
-      <!-- Sesion navbar links -->
-      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-
-        {% if user.is_authenticated %}
-            {% if request.user.groups.all %}
-            	{% for g in request.user.groups.all %}
-                    <li class="nav-item m-2">
-                    <a class="btn btn-outline-primary ms-md-2" href="#" role="button">
-                        {{ g.name }}
-                        <i class="fas fa-user-circle"></i>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <a class="navbar-brand" href="#">
+            <img src="{% static 'dist/img/logo-1.png' %}" style="height: 40px;">
+        </a>
+        <div class="ml-auto d-flex align-items-center">
+            {% if request.user.is_authenticated %}
+                <div class="mr-2">
+                    <a class="btn btn-outline-light" href=".">
+                        {% if request.user.groups %}
+                        	{{ request.user.groups.all.0.name }} |
+                        {% endif %}
+                        {{ request.user }}
                     </a>
-                    </li>
-                {% endfor %}
+                </div>
+                <div>
+                    <a class="btn bg-danger text-light" href="{% url 'user:logout' %}">Cerrar Sesión</a>
+                </div>
+            {% else %}
+                <div>
+                    <a class="btn btn-outline-light" href="{% url 'user:login' %}">Acceder</a>
+                </div>
             {% endif %}
-            <li class="nav-item m-2">
-            <a class="btn btn-danger ms-md-2" href="{% url 'user:logout' %}" role="button">Cerrar Sesión
-                <i class="fas fa-power-off power-off"></i>
-            </a>
-            </li>
-        {% else %}
-            <li class="nav-item m-2">
-            <a class="btn btn-primary ms-md-2" href="{% url 'user:login' %}" role="button">Iniciar Sesión
-                <i class="fas fa-sign-in-alt"></i>
-            </a>
-            </li>
-        {% endif %}
-
-
-      </ul>
-    </div>
-  </nav>
-  <!-- /.navbar -->
-
+        </div>
+    </nav>
 </header>

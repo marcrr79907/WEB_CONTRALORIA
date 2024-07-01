@@ -1,7 +1,7 @@
 {% load static %}
 
 {% block contenido %}
-    
+<div class="table-container">
     <table id="report_list" class="display compact" style="width:100%">
         <thead>
             <tr>
@@ -12,7 +12,7 @@
                 <th>Proyectos</th>
                 <th>Deudas</th>
                 <th>Personal</th>
-                <th>Costos_de_personal</th>
+                <th>Costos de Personal</th>
                 <th>Fecha</th>
                 {% if user_group.name == 'Auditor' %}
                 <th>Acciones</th>
@@ -21,84 +21,81 @@
         </thead>
         <tbody>
             {% for user_report in user_report_list %}
-            	<tr>
-                    <td>{{ user_report.organizacion_id }}</td>
-                    <td>{{ user_report.user_id }}</td>
-                    <td>{{ user_report.ingresos_anuales }}</td>
-                    <td>{{ user_report.gastos_de_capital }}</td>
-                    <td>{{ user_report.proyectos }}</td>
-                    <td>{{ user_report.deudas_actuales }}</td>
-                    <td>{{ user_report.personal }}</td>
-                    <td>{{ user_report.costos_de_personal }}</td>
-                    <td>{{ user_report.fecha }}</td>
-                    {% if user_group.name == 'Auditor' %}
-                    	<td>
-                        <a class="btn btn-warning" data-toggle="modal" data-target="#editReporteModal" role="button">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <div class="modal fade" id="editReporteModal" aria-labelledby="editReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
+            <tr>
+                <td>{{ user_report.organizacion_id }}</td>
+                <td>{{ user_report.user_id }}</td>
+                <td>{{ user_report.ingresos_anuales }}</td>
+                <td>{{ user_report.gastos_de_capital }}</td>
+                <td>{{ user_report.proyectos }}</td>
+                <td>{{ user_report.deudas_actuales }}</td>
+                <td>{{ user_report.personal }}</td>
+                <td>{{ user_report.costos_de_personal }}</td>
+                <td>{{ user_report.fecha }}</td>
+                {% if user_group.name == 'Auditor' %}
+                <td>
+                    <a class="btn btn-warning" data-toggle="modal" data-target="#editReporteModal" role="button">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <div class="modal fade" id="editReporteModal" aria-labelledby="editReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="editReporteModalLabel">Reporte</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <form action="{% url 'gestion_contraloria:report_update' user_report.id %}" method="post">
-                                <div class="modal-body">
-                                  {% csrf_token %}
-                                  <!-- Campos del formulario -->
-                                  <div class="form-group">
-                                    <label for="id_ingresos_anuales">Ingresos Anuales:</label>
-                                    <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="id_gastos_de_capital">Gastos de Capital:</label>
-                                    <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="id_proyectos">Proyectos:</label>
-                                    <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="id_deudas_actuales">Deudas Actuales:</label>
-                                    <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="id_personal">Personal:</label>
-                                    <input type="number" name="personal" id="id_personal" class="form-control" required>
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="id_costos_de_personal">Costos de Personal:</label>
-                                    <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
-                                  </div>
-                                  <!-- Campos ocultos -->
-                                  <input type="hidden" name="action_update" value="{{ action_update }}">
-                                  <input type="hidden" name="organizacion_id" value="{{ user_report.organizacion_id.id }}">
-                                  <input type="hidden" name="rep_id" value="{{ user_report.id }}">
-                                    
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editReporteModalLabel">Reporte</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                  <button type="submit" class="btn btn-primary">Guardar Reporte</button>
-                                </div>
-                              </form>
+                                <form action="{% url 'gestion_contraloria:report_update' user_report.id %}" method="post">
+                                    <div class="modal-body">
+                                        {% csrf_token %}
+                                        <!-- Campos del formulario -->
+                                        <div class="form-group">
+                                            <label for="id_ingresos_anuales">Ingresos Anuales:</label>
+                                            <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_gastos_de_capital">Gastos de Capital:</label>
+                                            <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_proyectos">Proyectos:</label>
+                                            <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_deudas_actuales">Deudas Actuales:</label>
+                                            <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_personal">Personal:</label>
+                                            <input type="number" name="personal" id="id_personal" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="id_costos_de_personal">Costos de Personal:</label>
+                                            <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
+                                        </div>
+                                        <!-- Campos ocultos -->
+                                        <input type="hidden" name="action_update" value="{{ action_update }}">
+                                        <input type="hidden" name="organizacion_id" value="{{ user_report.organizacion_id.id }}">
+                                        <input type="hidden" name="rep_id" value="{{ user_report.id }}">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar Reporte</button>
+                                    </div>
+                                </form>
                             </div>
-                          </div>
                         </div>
-                        <a class="btn btn-warning" href="{% url 'gestion_contraloria:report_delete' user_report.id %}" role="button">
-                            <i class="fas fa-recycle"></i>
-                        </a>
-                    </td>
-                    {% endif %} 
-                    
-                </tr>
+                    </div>
+                    <a class="btn btn-danger" href="{% url 'gestion_contraloria:report_delete' user_report.id %}" role="button">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
             {% endfor %}
-            
-            
         </tbody>
     </table>
+</div>
 {% endblock %}
 
 <script>
@@ -113,28 +110,28 @@ new DataTable('#report_list', {
         }
     ],
     language: {
-            "sProcessing":     "Procesando...",
-            "sLengthMenu":     "Mostrar _MENU_ registros",
-            "sZeroRecords":    "No se encontraron resultados",
-            "sEmptyTable":     "Ningún dato disponible en esta tabla",
-            "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-            "sInfoPostFix":    "",
-            "sSearch":         "Buscar:",
-            "sUrl":            "",
-            "sInfoThousands":  ",",
-            "sLoadingRecords": "Cargando...",
-            "oPaginate": {
-                "sFirst":    "Primero",
-                "sLast":     "Último",
-                "sNext":     "Siguiente",
-                "sPrevious": "Anterior"
-            },
-            "oAria": {
-                "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-            }
+        "sProcessing": "Procesando...",
+        "sLengthMenu": "Mostrar _MENU_ registros",
+        "sZeroRecords": "No se encontraron resultados",
+        "sEmptyTable": "Ningún dato disponible en esta tabla",
+        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix": "",
+        "sSearch": "Buscar:",
+        "sUrl": "",
+        "sInfoThousands": ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
         }
+    }
 });
 </script>

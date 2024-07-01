@@ -1,5 +1,7 @@
 {% load static %}
-{% include 'base/head.html' %}
+{% block head %}
+    {% include 'base/head.html' %}
+{% endblock  %}
 <body class="hold-transition sidebar-mini">
 
     {% block header %}
