@@ -14,16 +14,19 @@
                 <th>Personal</th>
                 <th>Costos de Personal</th>
                 <th>Fecha</th>
-                {% if user_group.name == 'Auditor' %}
                 <th>Acciones</th>
-                {% endif %}
             </tr>
         </thead>
         <tbody>
             {% for user_report in user_report_list %}
             <tr>
                 <td>{{ user_report.organizacion_id }}</td>
-                <td>{{ user_report.user_id }}</td>
+                {% if user_report.user_name == None %}
+                    <td>{{ user_report.user_id }}</td>
+                {% else %}
+                    <td>{{ user_report.user_name }}</td>
+                {% endif %} 
+                
                 <td>{{ user_report.ingresos_anuales }}</td>
                 <td>{{ user_report.gastos_de_capital }}</td>
                 <td>{{ user_report.proyectos }}</td>
@@ -31,66 +34,89 @@
                 <td>{{ user_report.personal }}</td>
                 <td>{{ user_report.costos_de_personal }}</td>
                 <td>{{ user_report.fecha }}</td>
-                {% if user_group.name == 'Auditor' %}
                 <td>
-                    <a class="btn btn-warning" data-toggle="modal" data-target="#editReporteModal" role="button">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <div class="modal fade" id="editReporteModal" aria-labelledby="editReporteModalLabel" tabindex="-1" role="dialog" aria-hidden="true">
+                    {% if user_group.name == 'Auditor' %}
+                        <a class="btn btn-warning" data-toggle="modal" data-target="#editReporteModal{{ user_report.id }}" role="button">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <div class="modal fade" id="editReporteModal{{ user_report.id }}" aria-labelledby="editReporteModalLabel{{ user_report.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editReporteModalLabel{{ user_report.id }}">Reporte</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="{% url 'gestion_contraloria:report_update' user_report.id %}" method="post">
+                                        <div class="modal-body">
+                                            {% csrf_token %}
+                                            <!-- Campos del formulario -->
+                                            <div class="form-group">
+                                                <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" placeholder="Ingresos Anuales" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" placeholder="Gastos de Capital" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" name="proyectos" id="id_proyectos" class="form-control" placeholder="Proyectos" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" placeholder="Deudas Actuales" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" name="personal" id="id_personal" class="form-control" placeholder="Personal" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" placeholder="Costos de Personal" required>
+                                            </div>
+                                            <!-- Campos ocultos -->
+                                            <input type="hidden" name="action_update" value="{{ action_update }}">
+                                            <input type="hidden" name="organizacion_id" value="{{ user_report.organizacion_id.id }}">
+                                            <input type="hidden" name="rep_id" value="{{ user_report.id }}">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Guardar Reporte</button>
+                                        </div>
+                                    </form>
+    
+                                </div>
+                            </div>
+                        </div>
+                        <a type="button" class="btn btn-danger col-6 mb-2" data-toggle="modal" data-target="#reportQuitModal{{ user_report.id }}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <!-- Modal Reporte -->
+                        <div class="modal fade" id="reportQuitModal{{ user_report.id }}" tabindex="-1" role="dialog" aria-labelledby="reportQuitModalLabel{{ user_report.id }}" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editReporteModalLabel">Reporte</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <h5 class="modal-title" id="reportQuitModalLabel{{ user_report.id }}">{{ title }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="{% url 'gestion_contraloria:report_update' user_report.id %}" method="post">
-                                    <div class="modal-body">
+                                <div class="modal-body">
+                                    <form id="reportQuitFormulario" method="POST" action="{% url 'gestion_contraloria:report_delete' %}">
                                         {% csrf_token %}
-                                        <!-- Campos del formulario -->
-                                        <div class="form-group">
-                                            <label for="id_ingresos_anuales">Ingresos Anuales:</label>
-                                            <input type="number" name="ingresos_anuales" id="id_ingresos_anuales" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_gastos_de_capital">Gastos de Capital:</label>
-                                            <input type="number" name="gastos_de_capital" id="id_gastos_de_capital" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_proyectos">Proyectos:</label>
-                                            <input type="number" name="proyectos" id="id_proyectos" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_deudas_actuales">Deudas Actuales:</label>
-                                            <input type="number" name="deudas_actuales" id="id_deudas_actuales" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_personal">Personal:</label>
-                                            <input type="number" name="personal" id="id_personal" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_costos_de_personal">Costos de Personal:</label>
-                                            <input type="number" name="costos_de_personal" id="id_costos_de_personal" class="form-control" required>
-                                        </div>
-                                        <!-- Campos ocultos -->
                                         <input type="hidden" name="action_update" value="{{ action_update }}">
-                                        <input type="hidden" name="organizacion_id" value="{{ user_report.organizacion_id.id }}">
-                                        <input type="hidden" name="rep_id" value="{{ user_report.id }}">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar Reporte</button>
-                                    </div>
-                                </form>
+                                        <input type="hidden" name="report_id" value="{{ user_report.id }}">
+                                        <p>¿Desea quitar el reporte? {{ user_report.id }}</p>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                            <button type="submit" class="btn btn-danger" id="reportbtnAceptar">Sí</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-danger" href="{% url 'gestion_contraloria:report_delete' user_report.id %}" role="button">
-                        <i class="fas fa-trash"></i>
-                    </a>
+                    {% endif %}
+                    <button class="btn btn-info exportar-pdf">
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
                 </td>
-                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
@@ -99,39 +125,62 @@
 {% endblock %}
 
 <script>
-new DataTable('#report_list', {
-    dom: 'Bfrtip',
-    buttons: [
-        {
-            extend: 'pdf',
-            exportOptions: {
-                columns: ':not(:last-child)'
+    document.addEventListener("DOMContentLoaded", function() {
+        const { jsPDF } = window.jspdf;
+        
+        const table = $('#report_list').DataTable({
+            dom: 'Bfrtip',
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "Todos"]],
+            buttons: [
+                {
+                    extend: 'pdf',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+            ],
+            language: {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
             }
-        }
-    ],
-    language: {
-        "sProcessing": "Procesando...",
-        "sLengthMenu": "Mostrar _MENU_ registros",
-        "sZeroRecords": "No se encontraron resultados",
-        "sEmptyTable": "Ningún dato disponible en esta tabla",
-        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-        "sInfoPostFix": "",
-        "sSearch": "Buscar:",
-        "sUrl": "",
-        "sInfoThousands": ",",
-        "sLoadingRecords": "Cargando...",
-        "oPaginate": {
-            "sFirst": "Primero",
-            "sLast": "Último",
-            "sNext": "Siguiente",
-            "sPrevious": "Anterior"
-        },
-        "oAria": {
-            "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-        }
-    }
-});
+        });
+
+        $('#report_list tbody').on('click', 'button.exportar-pdf', function() {
+            const row = table.row($(this).parents('tr')).data();
+            const doc = new jsPDF();
+
+            doc.text("Reporte de Organización", 10, 10);
+            doc.text(`Organización: ${row[0]}`, 10, 20);
+            doc.text(`Elaborado por: ${row[1]}`, 10, 30);
+            doc.text(`Ingresos Anuales: ${row[2]}`, 10, 40);
+            doc.text(`Gastos de Capital: ${row[3]}`, 10, 50);
+            doc.text(`Proyectos: ${row[4]}`, 10, 60);
+            doc.text(`Deudas Actuales: ${row[5]}`, 10, 70);
+            doc.text(`Personal: ${row[6]}`, 10, 80);
+            doc.text(`Costos de Personal: ${row[7]}`, 10, 90);
+            doc.text(`Fecha: ${row[8]}`, 10, 100);
+
+            doc.save(`reporte_${row[0]}.pdf`);
+        });
+    });
 </script>

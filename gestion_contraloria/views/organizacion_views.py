@@ -21,7 +21,7 @@ class OrganizacionListView(LoginRequiredMixin, ValidatedPermissionRequiredMixin,
             en_supervision=self.request.user
         )
         organizacion_reportes_list = [
-            [organizacion, Reporte.objects.filter(organizacion_id=organizacion.pk).count()]
+            [organizacion, Reporte.objects.filter(organizacion_id=organizacion.id).count()]
             for organizacion in user_organizacion_list
         ]
         title = 'Organizaciones' if len(user_organizacion_list) > 1 else 'Organización'

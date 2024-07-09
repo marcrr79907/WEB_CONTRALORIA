@@ -29,8 +29,9 @@ class Reporte(models.Model):
     costos_de_personal = models.IntegerField()
     fecha = models.DateField(auto_now=True)
 
-    organizacion_id = models.ForeignKey(Organizacion, on_delete=models.PROTECT)
-    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    organizacion_id = models.ForeignKey(Organizacion, on_delete=models.SET_NULL, null=True, blank=True)
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT, blank=True, null=True)
+    user_name = models.CharField(max_length=50, null=True, blank=True)
 
     class Meta:
         verbose_name = "Reporte"

@@ -16,5 +16,5 @@ urlpatterns = [
     path('report_list/', ReporteListView.as_view(), name='report_list'),
     path('report_create/', ReporteCreateView.as_view(), name='report_create'),
     path('report_update/<int:pk>/', ReporteUpdateView.as_view(), name='report_update'),
-    path('report_delete/<int:pk>/', ReporteDeleteView.as_view(), name='report_delete'),
+    path('report_delete/', ReporteDeleteView.as_view(), name='report_delete'),
 ]

@@ -27,7 +27,7 @@ class ReporteListView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, List
         grupo_auditor = Group.objects.get(name='Auditor')
 
         if grupo_gerente in user.groups.all():
-            return Reporte.objects.filter(user_id__groups=grupo_auditor)
+            return Reporte.objects.all()
 
         elif grupo_auditor in user.groups.all():
             return Reporte.objects.filter(user_id=user)
@@ -67,9 +67,10 @@ class ReporteCreateView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, Cr
             action = request.POST['action_add']
             if action == 'add':
                 form = self.get_form()
-
+                print(request.POST)
                 if form.is_valid():
                     form.instance.user_id = self.request.user
+                    form.instance.user_name = self.request.user.username
                     form.save()
                     data['form_is_valid'] = True
                 else:
@@ -132,22 +133,42 @@ class ReporteUpdateView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, Up
             return redirect(self.success_url)
 
 
-class ReporteDeleteView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, DeleteView):
+class ReporteDeleteView(LoginRequiredMixin, ValidatedPermissionRequiredMixin, View):
     model = Reporte
     success_url = reverse_lazy('gestion_contraloria:report_list')
-    template_name = 'reporte/eliminar.html'
+    template_name = 'dashboard/dashboard.html'
     permission_required = 'delete_reporte'
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        return super().dispatch(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        data = {}
+        data['form_is_valid'] = False
 
-    def get_context_data(self, **kwargs):
+        try:
+            action = request.POST['action_update']
+            if action == 'update':
+                report = Reporte.objects.get(pk=int(request.POST['report_id']))
 
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminar reporte'
-        context['text'] = 'Está seguro de eliminar el reporte?'
-        context['url_redirect'] = self.success_url
+                if report:
+                    if report.user_id == request.user:
+                        report.user_id = None
+                        request.session['data'] = {
+                            'success_message': 'El reporte se ha eliminado con éxito.',
+                        }
+                        print(request.POST['report_id'])
+                        report.save()
+                        data['form_is_valid'] = True
+                else:
+                    data['error'] = 'No hay ningún reporte'
+            else:
+                data['error'] = 'No ha ingresado ninguna acción'
+        except Exception as e:
+            data['error'] = str(e)
+            print(data['error'])
 
-        return context
+        if data['form_is_valid']:
 
+            return redirect(self.success_url)
+        else:
+            request.session['data'] = {
+                'error_message': data['error']}
+            return redirect(self.success_url)
