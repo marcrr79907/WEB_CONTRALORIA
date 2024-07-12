@@ -1,23 +1,11 @@
 {% load static %}
-{% if user.is_autenticate %}
-    <!-- Main Footer -->
-    <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-        <b>Version</b> 3.2.0
-    </div>
-    </footer>
-{% else %}
-    <footer role="contentinfo" class="footer bg-primary">
-        <div class="container"><div class="row">
+
+<footer role="contentinfo" class="footer bg-blue">
+    <div class="container">
+        <div class="row">
             <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
                 <div class="region region-footer-branding">
-                    <div id="block-marcadelsitio" class="block block-system block-system-branding-block">
-                        <a href="/" rel="home" class="site-logo">
-                            <img src="{% static 'dist/img/logo-1.png' %}" style="height: 100px; -webkit-tap-highlight-color: transparent;">
-                        </a>
-                    </div>
+
                     <div class="views-element-container block block-views block-views-blockultima-actualizacion-block-1" id="block-views-block-ultima-actualizacion-block-1">
                         <h2>Última actualización</h2>
                         <div>
@@ -60,172 +48,120 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-lg-8 col-xl-9">
-                <div class="region region-footer-enlaces">
-                    <div class="views-element-container block block-views block-views-blockenlaces-de-interes-block-1" id="block-views-block-enlaces-de-interes-block-1">
-                        <h2>Enlaces de interés</h2>
-                        <div>
-                            <div class="view view-enlaces-de-interes view-id-enlaces_de_interes view-display-id-block_1 js-view-dom-id-13077f662cc5b7b8c0c8ec745064ece3abb14080c647d776dd4cf9fdd51c54df">
-                                <div class="view-content">
-                                    <div class="row">
-                                        <div class="item col-12 col-lg-4 mb-3">
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="https://www.pcc.cu/es" target="_blank">Partido Comunista de Cuba</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="https://www.presidencia.gob.cu/es/" target="_blank">Sitio de la Presidencia</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.parlamentocubano.gob.cu/" target="_blank">Asamblea Nacional del Poder Popular</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.cubacrece.gob.cu/" target="_blank">Cubacrece</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.fgr.gob.cu/es" target="_blank">Fiscalía General de la República</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item col-12 col-lg-4 mb-3">
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content"><a href="https://www.minint.gob.cu/" target="_blank">Ministerio del Interior</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.tsp.gob.cu/es" target="_blank">Tribunal Supremo Popular</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="https://www.minjus.gob.cu" target="_blank">Ministerio de Justicia</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.minrex.gob.cu/" target="_blank">Ministerio de Relaciones Exteriores</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.onei.gob.cu/" target="_blank">Oficina Nacional de Estadística e Información</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item col-12 col-lg-4 mb-3">
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.fidelcastro.cu" target="_blank">Sitio Fidel Soldado de las ideas</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="https://www.redcuba.cu" target="_blank">Red C.U.B.A</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="https://www.gacetaoficial.gob.cu" target="_blank">Gaceta Oficial de la República de Cuba</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="views-row">
-                                                <div class="views-field views-field-title">
-                                                    <span class="field-content">
-                                                        <a href="http://www.cubadebate.cu/etiqueta/cuba/" target="_blank">Cubadebate</a>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="row justify-content-center col-12">
+                <div>
+                    <h2>Enlaces de interés</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="container col-3">
+                        <a href="/" rel="home" class="site-logo">
+                            <img src="{% static 'dist/img/logo-1.png' %}" style="height: 100px; -webkit-tap-highlight-color: transparent;">
+                        </a>
+                    </div>
+
+                    <div class="container col-3">
+                        <div class="container justify-content-center">
+                            <span class="field-content">
+                                <a href="https://www.pcc.cu/es">Partido Comunista de Cuba</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="https://www.presidencia.gob.cu/es/">Sitio de la Presidencia</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.parlamentocubano.gob.cu/">Asamblea Nacional del Poder Popular</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.cubacrece.gob.cu/">Cubacrece</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.fgr.gob.cu/es">Fiscalía General de la República</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content"><a href="https://www.minint.gob.cu/">Ministerio del Interior</a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="container col-3">
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.tsp.gob.cu/es">Tribunal Supremo Popular</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="https://www.minjus.gob.cu">Ministerio de Justicia</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.minrex.gob.cu/">Ministerio de Relaciones Exteriores</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.onei.gob.cu/">Oficina Nacional de Estadística e Información</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.fidelcastro.cu">Sitio Fidel Soldado de las ideas</a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="container col-3">
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="https://www.redcuba.cu">Red C.U.B.A</a>
+                            </span>
+                        </div>
+
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="https://www.gacetaoficial.gob.cu">Gaceta Oficial de la República de Cuba</a>
+                            </span>
+                        </div>
+                        <div class="views-field views-field-title">
+                            <span class="field-content">
+                                <a href="http://www.cubadebate.cu/etiqueta/cuba/">Cubadebate</a>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-        <div class="irarriba position-relative">
-            <div class="container position-relative">
-                <div class="triangulo-equilatero-bottom d-block">
-                    <i class="mdi mdi-arrow-up-thick" title="Ir arriba"></i>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="region region-footer">
-                        <nav role="navigation" aria-labelledby="block-cgr-footer-menu" id="block-cgr-footer" class="block block-menu navigation menu--footer">
-                            <h2 class="visually-hidden" id="block-cgr-footer-menu">Menú al pie</h2>
-                            <ul class="menu">
-                                <li class="menu-item">
-                                    <a href="/preguntas-frecuentes" data-drupal-link-system-path="preguntas-frecuentes">Preguntas frecuentes</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="/sitemap" data-drupal-link-system-path="sitemap">Mapa del sitio</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="/politicas-de-privacidad" data-drupal-link-system-path="node/70">Políticas de privacidad</a>
-                                </li>
-                                <li class="menu-item">
-                                    <a href="/terminos-y-condiciones-de-uso" data-drupal-link-system-path="node/71">Términos y condiciones de uso</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="region region-footer-info">
-                        <div id="block-footerinfo" class="block block-block-content block-block-content173e971f-2d0a-4c88-bc1a-ab10c05d7ca1">
-                            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
-                                <p>Todos los derechos reservados © 2019. Contraloría General de la República de Cuba. Desarrollado por
-                                    <a href="http://www.uci.cu/">UCI</a>.
-                                </p>
-                            </div>
+    </div>
+    <div class="justify-content-center">
+        <a href="#">
+            <span class="fa-stack fa-4x">
+                <i class="fa fa-arrow-up fa-stack-1x fa-inverse"></i>
+            </span>
+        </a>
+        <p>Ir arriba</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="region region-footer-info">
+                    <div id="block-footerinfo" class="block block-block-content block-block-content173e971f-2d0a-4c88-bc1a-ab10c05d7ca1">
+                        <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
+                            <p>Todos los derechos reservados © 2019. Contraloría General de la República de Cuba. Desarrollado por
+                                <a href="http://www.uci.cu/">UCI</a>.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
-{% endif %}
+    </div>
+</footer>
