@@ -1,0 +1,23 @@
+.main-content {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+.main-image {
+    width: 100%;
+    height: auto;
+}
+.footer {
+    background-color: #356fdc;
+    color: white;
+    padding: 10px 0;
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+}
+.quote {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-left: 5px solid #356fdc;
+    margin: 20px 0;
+}

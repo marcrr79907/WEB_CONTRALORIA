@@ -1,0 +1,24 @@
+.table-container {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+#report_list thead th {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+.nav-link.active {
+    background-color: #f8f9fa; /* Fondo claro para la opción activa */
+    color: #000; /* Color del texto para la opción activa */
+}
+#yearSelect{
+    width: auto;
+    display: inline-block;
+}
+.graf-container {
+  margin-bottom: 30px;
+}
+
